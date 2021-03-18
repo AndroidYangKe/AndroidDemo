@@ -1,4 +1,4 @@
-package com.yangke.app.java.widget;
+package com.yangke.app.java.v.widget;
 
 import android.annotation.SuppressLint;
 import android.os.Handler;
@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.yangke.app.java.BaseApp;
+import com.yangke.app.java.v.BaseApp;
 
 /**
  * author : yangke on 2021/3/17
