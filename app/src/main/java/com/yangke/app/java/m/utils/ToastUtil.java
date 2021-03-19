@@ -16,6 +16,7 @@ import com.yangke.app.java.v.BaseApp;
  * desc   : Toast辅助展示类
  */
 public class ToastUtil {
+    private static Toast mToast;
     private Toast toast;
     private LinearLayout toastView;
 
@@ -24,7 +25,14 @@ public class ToastUtil {
      */
     public static void show(String str) {
         if (!TextUtils.isEmpty(str)) {
-            Toast.makeText(BaseApp.mApp, str, Toast.LENGTH_SHORT).show();
+            if(null != mToast) {
+                mToast.cancel();
+                mToast = null;
+            }
+            if(null == mToast) {
+                mToast = Toast.makeText(BaseApp.mApp, str, Toast.LENGTH_SHORT);
+            }
+            mToast.show();
         }
     }
 

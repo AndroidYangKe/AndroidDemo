@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <!--此处必须多嵌套一层，否则外层宽设的宽高不会生效-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/login_loading_bg"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="17dp">
+
+        <ImageView
+            android:id="@+id/progress_bar_common"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/login_loading" />
+    </LinearLayout>
+</FrameLayout>

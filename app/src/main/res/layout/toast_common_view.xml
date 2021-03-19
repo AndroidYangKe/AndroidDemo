@@ -8,7 +8,7 @@
         android:id="@+id/toast_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/design_default_color_secondary"
+        android:textColor="@color/teal_200"
         android:textSize="22sp"
         tools:ignore="MissingConstraints"
         tools:text="Hello Toast" />

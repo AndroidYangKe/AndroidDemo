@@ -1,4 +1,4 @@
-package com.yangke.app.java.v.base;
+package com.yangke.app.java.v.widget;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;

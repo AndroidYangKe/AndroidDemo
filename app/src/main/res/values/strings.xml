@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">YangKe</string>
+
+    <!--error hint-->
+    <string name="network_error">无网络</string>
+    <string name="network_error_desc">~网络走丢了~</string>
+    <string name="no_data_title">无数据</string>
+    <string name="no_data_desc">~暂时没有数据~</string>
+    <string name="title_about_author">关于作者</string>
+
 </resources>

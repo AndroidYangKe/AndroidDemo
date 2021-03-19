@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--通用命名-->
     <dimen name="dp4">4dp</dimen>
+    <dimen name="dp6">6dp</dimen>
+    <dimen name="dp8">8dp</dimen>
     <dimen name="dp10">10dp</dimen>
+    <dimen name="dp12">12dp</dimen>
     <dimen name="dp16">16dp</dimen>
+
+    <!--常规命名-->
+    <dimen name="title_size">18sp</dimen>
 </resources>

@@ -3,12 +3,13 @@
     package="com.yangke.app.java">
 
     <application
-        android:allowBackup="true"
+        android:name=".v.BaseApp"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:name=".v.BaseApp"
         android:theme="@style/BaseTheme">
+        <activity android:name=".v.base.BaseActivity" />
         <activity android:name=".v.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
