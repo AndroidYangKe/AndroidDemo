@@ -27,6 +27,12 @@ import java.util.Arrays;
  * weChat : ACE_5200125
  * email  : 211yangke@sina.com
  * desc   : 城市选择DialogFragment
+ * 示例：new CitySelectorDialogFragment(new CitySelectorDialogFragment.ConfirmListener() {
+ *
+ * @Override public void confirm(String str) {
+ * ToastUtil.show(str);
+ * }
+ * }).show(getSupportFragmentManager(), "");
  */
 public class CitySelectorDialogFragment extends DialogFragment {
 

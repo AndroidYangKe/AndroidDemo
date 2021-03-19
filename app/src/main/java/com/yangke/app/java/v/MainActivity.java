@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.yangke.app.java.R;
 import com.yangke.app.java.m.utils.ToastUtil;
-import com.yangke.app.java.v.base.CitySelectorDialogFragment;
 
 /**
  * author : yangke on 2021/3/17
@@ -24,11 +23,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void doClick(View v) {
-        new CitySelectorDialogFragment(new CitySelectorDialogFragment.ConfirmListener() {
-            @Override
-            public void confirm(String str) {
-                ToastUtil.show(str);
-            }
-        }).show(getSupportFragmentManager(), "");
+        ToastUtil.show("str");
+
     }
 }
