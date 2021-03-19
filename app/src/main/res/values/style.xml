@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="citySelector" parent="Theme.AppCompat.Light.Dialog"><!--城市选择-->
+        <item name="android:windowEnterAnimation">@anim/bottom_slide_in</item>
+        <item name="android:windowExitAnimation">@anim/bottom_slide_out</item>
+    </style>
+</resources>

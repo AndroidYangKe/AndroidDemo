@@ -1,4 +1,4 @@
-package com.yangke.app.java.m.helper;
+package com.yangke.app.java.m.utils;
 
 import android.text.TextUtils;
 import android.util.Log;

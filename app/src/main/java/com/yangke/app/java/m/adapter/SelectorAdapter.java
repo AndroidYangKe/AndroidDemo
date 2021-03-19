@@ -25,6 +25,8 @@ public class SelectorAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
     private final int mTextSelectorColor = BaseApp.mApp.getResources().getColor(R.color.purple_500);
     private final int mTextNormalColor = BaseApp.mApp.getResources().getColor(R.color.black);
+    private final LinearSnapHelper mSnapHelper = new LinearSnapHelper();
+    private final int mSelectTextSize = 16;
 
     public SelectorAdapter(int layoutResId, RecyclerView rcy) {
         super(layoutResId);
@@ -33,16 +35,26 @@ public class SelectorAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
     }
 
     /**
+     * 获取选中View对应的数据
+     */
+    public String getSelectedItemData(RecyclerView rcy) {
+        View snapView = mSnapHelper.findSnapView(rcy.getLayoutManager());
+        if (null != snapView) {
+            return getData().get(rcy.getChildAdapterPosition(snapView));
+        }
+        return "";
+    }
+
+    /**
      * 根据滚动状态更新选中、未选中城市颜色
      */
     private void updateSelectorView(RecyclerView rcy) {
-        LinearSnapHelper snapHelper = new LinearSnapHelper();
-        snapHelper.attachToRecyclerView(rcy);
+        mSnapHelper.attachToRecyclerView(rcy);
         rcy.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView rcy, int newState) {
                 super.onScrollStateChanged(rcy, newState);
-                View v = snapHelper.findSnapView(rcy.getLayoutManager());
+                View v = mSnapHelper.findSnapView(rcy.getLayoutManager());
                 if (null == v) {
                     return;
                 }
@@ -52,9 +64,11 @@ public class SelectorAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
                 if (RecyclerView.SCROLL_STATE_IDLE == newState) {
                     selectorTv.setTextColor(mTextSelectorColor);
                     selectorTv.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+                    selectorTv.setTextSize(mSelectTextSize);
 
                 } else {
                     selectorTv.setTextColor(mTextNormalColor);
+                    selectorTv.setTextSize(14);
                     selectorTv.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
                 }
             }
@@ -70,6 +84,7 @@ public class SelectorAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
             TextView tv = holder.findView(R.id.selector_tv);
             assert tv != null;
             tv.setTextColor(mTextSelectorColor);
+            tv.setTextSize(mSelectTextSize);
             tv.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
         }
     }
