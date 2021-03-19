@@ -1,0 +1,11 @@
+总结4个Subject的特性
+
+    Subject                         发射行为
+
+  AsyncSubject        无论订阅发生在什么时候，只发射最后一个数据
+
+  BehaviorSubject     发送订阅之前的一个数据和订阅之后的所有数据
+
+  ReplaySubject       不论订阅发生在什么时候，都发射全部数据
+
+  PublishSubject      发送订阅之后全部数据

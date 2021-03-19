@@ -1,0 +1,169 @@
+#####RxJava的背压
+
+###背压
+在RxJava中，会遇到被观察者发送消息太快以至于它的操作符或者订阅者不能及时处理相关的消息，这就是典型的背压
+（Back Pressure）场景。
+
+在RxJava官方的维基百科中关于Back Pressure是这样描述的：
+
+In RxJava it is not difficult to get into a situation in which an Observable is emitting items more
+rapidly than an operator or subscriber can consume them. This presents the problem of what to do
+with such a growing backlog of unconsumed items.
+
+Back Pressure经常被翻译为背压，背压的字面意思非常晦涩，难以理解。它是指在异步场景下，被观察者发送事件速度远快于观
+察者处理的速度，从而导致下游的buffer溢出，这种现象叫做背压。
+
+首先，背压必须是在异步的场景下才会出现，即被观察者和观察者处于不同的线程中。
+
+其次，RxJava是基于Push模型的。对于Pull模型而言，当消费者请求数据的时候，如果生产者比较慢，则消费者会阻塞等待。如
+果生产者比较快，则生产者会等待消费者处理完后再生产新数据，所以不会出现背压的情况。然而在RxJava中，只要生产者数据准
+备好了就会发射出去。如果生产者比较慢，则消费者会等待新的数据到来。如果生产者比较快，则会有很多数据发射给消费者，而
+不管消费者当前有没有能力处理数据，这样就会导致背压。
+
+最后，在RxJava2.x中，只有新增的Flowable类型是支持背压的，并且Flowable很多操作符内部都是用了背压策略，从而避免很
+多的数据填满内部的队列。
+
+在RxJava 1.x中，有很多事件因为不能被正确地背压，从而抛出MissingBackpressureException。在RxJava 1.x中的
+observeOn，由于切换了观察者的线程，因此内部实现用队列存储事件。
+
+###如何解决背压问题呢？
+* 过滤限流，通过使用限流操作符将被观察者产生的大部分时间过滤并抛弃，以达到限流的目的，间接降低事件发射的速度，例如
+  使用以下的操作符：
+
+sample：在一段时间内，只处理最后一个数据。
+throttleFirst：在一段时间内，只处理第一个数据。
+debounce：发送一个数据，开始计时，到了规定的时间，若没有再发送数据，则开始处理数据，反之重新开始计时。
+
+* 打包缓存，在被观察者发射时间过快导致观察者来不及处理的情况下，可以使用缓存类的操作符将其中一部分打包缓存起来，再
+一点一点的处理其中的事件。
+
+buffer：将多个事件打包放入一个List中，再一起发射。
+window：将多个事件打包放入一个Observable中，在一起发射。
+
+* 使用背压操作符，我们可以通过一些操作符来转化成支持背压的Observable。这些操作符包括：
+onBackpressureBuffer
+onBackpressureDrop
+onBackpressureLatest
+onBackpressureBlock(已过期)
+
+在RxJava 1.x中，背压的设计并不十分完美。它的缓存池很小，只有16，不能处理大量的并发事件。RxJava 1.x上游（被观察
+者） 无法得知下游（观察者）对事件的处理能力和事件处理进度，只能把事件一次性抛给下游。接下来介绍RxJava 2.x的背压策
+略。
+
+###RxJava 2.x的背压策略
+
+在RxJava 2.x中，Observable不再支持背压，而是改用Flowable来专门支持背压。默认队列大小为128，并且要求所有的操作符
+强制支持背压。
+
+/**
+ *
+ * ....
+ */
+
+ * MISSING
+ 此策略表示，通过Create方法创建的Flowable没有指定背压策略，不会对通过OnNext发射的数据做缓存或丢弃处理，需要下游
+ 通过背压操作符（onBackpressureBuffer()/onBackpressureDrop()/onBackpressureLatest())指定背压策略。
+
+ * ERROR
+ 此策略表示，如果放入Flowable的一步缓存池中的数据超限了，则会抛出MissingBackpressureException异常。
+    Flowable.create(new FlowableOnSubscribe<Integer>() {
+                @Override
+                public void subscribe(FlowableEmitter<Integer> e) throws Exception {
+                    for(int i=0; i<129; i++) {
+                        e.onNext(i);
+                    }
+                }
+            }, BackpressureStrategy.ERROR)
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<Integer>() {
+                        @Override
+                        public void accept(Integer integer) throws Exception {
+                            System.out.println(integer);
+                        }
+                    });
+
+在Android中运行这段代码，会like引起App Crash，查看LogCat之后发现，发现如下的Exception。
+Cased by：io.reactivexexceptions.MissingBackpressureException:create:could not emit value due to lack
+of requests.因为Flowable的默认队列是128，所以上述代码的129改为128，程序就可以正常运行了。
+
+ * BUFFER
+ 此策略表示，Flowable的异步缓存池同Observable的一样，没有固定大小，可以无限制添加数据，不会抛出
+ MissingBackpressureException异常，但会导致OOM（Out of Memory）。
+    Flowable.create(new FlowableOnSubscribe<Integer>() {
+                @Override
+                public void subscribe(FlowableEmitter<Integer> e) throws Exception {
+                    for(int i=0; i<129; i++) {
+                        e.onNext(i);
+                    }
+                }
+            }, BackpressureStrategy.BUFFER)
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<Integer>() {
+                        @Override
+                        public void accept(Integer integer) throws Exception {
+                            System.out.println(integer);
+                        }
+                    });
+
+上述代码如果在Android中运行的话只会引起ANR。
+
+* DROP
+此策略表示，如果Flowable的异步缓存池满了，则会丢掉将要放入缓存池中的数据。
+        Flowable.create(new FlowableOnSubscribe<Integer>() {
+            @Override
+            public void subscribe(FlowableEmitter<Integer> e) throws Exception {
+                for(int i=0; i<129; i++) {
+                    e.onNext(i);
+                }
+            }
+        }, BackpressureStrategy.DROP)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer integer) throws Exception {
+                        System.out.println(integer);
+                    }
+                });
+
+在Android中运行这段代码，不糊引起Crash，但只会打印出0~127，第128则被丢弃，因为Flowable的内部队列已经满了。
+
+* LATEST
+此策略表示，如果缓存池满了，则丢掉想要放入缓存池中的数据。这一点与DROP策略一样，不同的是，不管缓存池的状态如何，
+LATEST策略会将最后一条数据强行放入缓存池中。
+        Flowable.create(new FlowableOnSubscribe<Integer>() {
+            @Override
+            public void subscribe(FlowableEmitter<Integer> e) throws Exception {
+                for(int i=0; i<129; i++) {
+                    e.onNext(i);
+                }
+            }
+        }, BackpressureStrategy.LATEST)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer integer) throws Exception {
+                        System.out.println(integer);
+                    }
+                });
+在Android中运行这段代码，也不会引起Crash，并且会打印出0~127以及999.因为999是最后一条数据。
+
+Flowable不仅可以通过create创建时徐亚指定背压策略，还可以在通过其他创建操作符，例如just，fromArray等创建后通过背
+压操作符指定背压策略。例如，onBackpressureBuffer()对应BackpressureStrategy.BUFFER，onBackpressureDrop()对
+应BackpressureStrategy.DROP，onBackpressureLatest()对应BackpressureStrategy.LATEST。
+
+示例代码：
+        Flowable.interval(period, TimeUnit.MILLISECONDS)
+                    .onBackpressureBuffer()
+                    .subscribe(new Consumer<Long>() {
+                        @Override
+                        public void accept(Long aLong) throws Exception {
+                            do something....
+                        }
+                    })
+
+总结：
+背压（Back pressure）解决了上下游速度不一致的问题。生产者和消费者的平衡。
