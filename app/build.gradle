@@ -15,7 +15,7 @@ android {
     }
 
     signingConfigs {
-        debug{
+        debug {
             keyAlias 'keystore'
             keyPassword '123456'
             storeFile file('keystore')
@@ -51,4 +51,19 @@ dependencies {
     //Adapter
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
     implementation 'androidx.appcompat:appcompat:1.2.0'
+
+    /*----------------------网络层面框架依赖------------------*/
+    //Rxjava
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.19'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    //OkHttp3
+    implementation 'com.squareup.okhttp3:okhttp:3.12.0'
+    //日志
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+    //Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.6.2'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.2'
+    //Html解析
+    implementation 'org.jsoup:jsoup:1.10.2'
 }

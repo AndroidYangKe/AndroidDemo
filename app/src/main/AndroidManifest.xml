@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.yangke.app.java">
+    <uses-permission android:name="android.permission.INTERNET"/> <!--访问网络必备权限-->
 
     <application
         android:name=".v.BaseApp"
