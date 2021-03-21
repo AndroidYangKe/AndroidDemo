@@ -12,4 +12,12 @@ public class SearchResult extends HttpResult<String> {
     public String fileSize;   //文件大小
     public String href;       //文件链接
     public String p;          //预留参数
+
+    public SearchResult(String searchName, String createDate, String fileSize, String href, String p) {
+        this.searchName = searchName;
+        this.createDate = createDate;
+        this.fileSize = fileSize;
+        this.href = href;
+        this.p = p;
+    }
 }

@@ -8,6 +8,16 @@
         android:id="@+id/search_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="搜索：电影、番号、剧情~" />
+        android:ellipsize="end"
+        android:text="加勒比"
+        android:hint="搜索：电影、番号、剧情~"
+        android:singleLine="true" />
+
+    <Button
+        android:id="@+id/go"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="60dp"
+        android:text="Go~" />
 
 </FrameLayout>

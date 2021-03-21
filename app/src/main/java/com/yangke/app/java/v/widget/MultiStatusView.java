@@ -19,7 +19,8 @@ import com.yangke.app.java.R;
  * author : yangke on 2021/3/2
  * weChat : ACE_5200125
  * email  : 211yangke@sina.com
- * desc   : 多种状态切换View；例：加载中、加载失败、空视图；
+ * desc   : 多种状态切换View；例：加载中、加载失败、空视图；几种状态来回切换，如果是loading中，不用调用
+ * 隐藏loading，直接调用相应的状态即可（如现在是loading中想直接展示空视图，直接调用showEmptyView）
  */
 public class MultiStatusView extends FrameLayout {
     private TextView mTitle, mDesc, mTryAgain;

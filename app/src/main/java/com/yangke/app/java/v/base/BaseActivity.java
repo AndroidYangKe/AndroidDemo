@@ -132,14 +132,22 @@ public abstract class BaseActivity extends AppCompatActivity {
      *
      * @param isFirst 是否是首次展示loading，默认首次展示时背景为透明；一般页面首次大白都传true；网络失败也传true；
      */
-    public void showLoading(boolean isFirst) {
+    public void switch2Loading(boolean isFirst) {
         mStateView.showLoadingView(isFirst);
     }
 
     /**
-     * 展示视图页面；例：首页默认加载时为空白页加loading状态，当网络请求成功时调用此函数，展示有数据的视图
+     * 展示网络错误视图；与showDataView，showEmptyView，showNetwork等进行状态切换；
      */
-    public void showDataView() {
+    public void switch2NetworkError() {
+        mStateView.showNetworkErrorView();
+    }
+
+    /**
+     * 展示视图页面；与showDataView，showEmptyView，showNetwork等进行状态切换；
+     * 例：首页默认加载时为空白页加loading状态，当网络请求成功时调用此函数，展示有数据的视图
+     */
+    public void switch2DataView() {
         mStateView.showDataView();
     }
 
