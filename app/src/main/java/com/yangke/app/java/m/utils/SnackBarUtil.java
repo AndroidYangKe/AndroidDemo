@@ -36,6 +36,10 @@ public class SnackBarUtil {
         return Snackbar.make(view, message, Snackbar.LENGTH_SHORT);
     }
 
+    public static Snackbar snackBarLong(View view, String message) {
+        return Snackbar.make(view, message, Snackbar.LENGTH_LONG);
+    }
+
     /**
      * 长显示SnackBar，自定义颜色
      */

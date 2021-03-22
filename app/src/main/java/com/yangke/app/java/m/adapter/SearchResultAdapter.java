@@ -1,6 +1,7 @@
 package com.yangke.app.java.m.adapter;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.yangke.app.java.R;
 import com.yangke.app.java.m.vo.SearchResult;
@@ -13,7 +14,9 @@ import org.jetbrains.annotations.NotNull;
  * email  : 211yangke@sina.com
  * desc   : 搜索结果页主列表适配器
  */
-public class SearchResultAdapter extends BaseQuickAdapter<SearchResult, BaseViewHolder> {
+public class SearchResultAdapter extends BaseQuickAdapter<SearchResult, BaseViewHolder>
+        implements LoadMoreModule {
+
     public SearchResultAdapter(int layoutResId) {
         super(layoutResId);
     }

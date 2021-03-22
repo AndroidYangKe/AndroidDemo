@@ -6,6 +6,7 @@ import com.yangke.app.java.m.network.Api;
 import com.yangke.app.java.m.network.ErrorModule;
 import com.yangke.app.java.m.network.RetrofitManager;
 import com.yangke.app.java.m.utils.EasyLog;
+import com.yangke.app.java.m.utils.MathHelper;
 import com.yangke.app.java.m.vo.SearchResult;
 import com.yangke.app.java.p.base.BasePresenter;
 import com.yangke.app.java.v.search.SearchResultActivity;
@@ -43,12 +44,25 @@ public class SearchPresenter extends BasePresenter<SearchResultActivity> {
                 try {
                     String html = response.body().string();
                     Document document = Jsoup.parse(html);
+                    Elements indexElements = document.getElementsByClass("pagination").select("li");
+                    int maxPageNum = 1;
+                    for (Element index : indexElements) {
+                        String pageStr = index.text();
+                        if(MathHelper.isNumeric(pageStr)) {
+                            int page = Integer.parseInt(pageStr);
+                            if(page > 1){
+                                maxPageNum = page;
+                            }
+                        }
+
+                    }
+
                     Elements c = document.getElementsByClass("table table-bordered table-striped");
-                    Elements empty = document.getElementsByClass("panel-body table-responsive table-condensed");
-                    String str = empty.select("p").text();
+                    Elements listDataElements = document.getElementsByClass("panel-body table-responsive table-condensed");
+                    String empty = listDataElements.select("p").text();
                     //搜索无数据；直接展示空列表
-                    if (!TextUtils.isEmpty(str) && str.contains("其它关键词")) {
-                        getMvpView().onSuccess("", null);
+                    if (!TextUtils.isEmpty(empty) && empty.contains("其它关键词")) {
+                        getMvpView().onSuccess("", null, "");
                         return;
                     }
                     //搜索有数据；正常解析
@@ -62,11 +76,11 @@ public class SearchPresenter extends BasePresenter<SearchResultActivity> {
                         String href = tds.select("a").attr("href");
                         list.add(new SearchResult(name, date, size, href, ""));
                     }
-                    getMvpView().onSuccess("", list);
+                    getMvpView().onSuccess("", list, String.valueOf(maxPageNum));
                 } catch (Exception e) {
                     e.printStackTrace();
                     //搜索有数据，解析错误，应该是网站的结构发生了变化
-                    getMvpView().onSuccess(ErrorModule.PARSE_ERROR, list);
+                    getMvpView().onSuccess(ErrorModule.PARSE_ERROR, list, "");
                     EasyLog.e("============解析出错============");
                 }
             }

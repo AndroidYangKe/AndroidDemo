@@ -13,8 +13,9 @@ public interface IBaseView<T> {
      *
      * @param flag 网络标识；可以做网络请求的唯一标识
      * @param t 返回的数据；可做网络请求成功的数据标识；
+     * @param str 预留的String参数
      */
-    void onSuccess(String flag, T t);
+    void onSuccess(String flag, T t, String str);
 
     /**
      * 网络异常时触发此函数；例：无网络、数据解析异常；
