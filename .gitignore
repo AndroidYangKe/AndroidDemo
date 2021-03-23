@@ -8,3 +8,6 @@
 .externalNativeBuild
 .cxx
 local.properties
+seeds.txt
+unused.txt
+mapping.txt

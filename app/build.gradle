@@ -17,9 +17,9 @@ android {
     signingConfigs {
         debug {
             keyAlias 'search'
-            keyPassword '123456'
-            storeFile file('keystore')
-            storePassword '123456'
+            keyPassword 'yangke'
+            storeFile file('search.jks')
+            storePassword 'yangke'
             v1SigningEnabled true
             v2SigningEnabled true
         }

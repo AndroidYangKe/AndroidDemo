@@ -37,7 +37,7 @@
 # 未混淆的类和成员
 -printseeds seeds.txt
 # 列出从 apk 中删除的代码
--printusage unused.txt
+#-printusage unused.txt
 # 混淆前后的映射
 -printmapping mapping.txt
 #####################记录生成的日志数据，gradle build时 在本项目根目录输出-end################
