@@ -19,3 +19,36 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# 保持 Serializable 不被混淆
+-keepnames class * implements java.io.Serializable
+
+# Android原生相关的实现类不被混淆
+-keep public class * extends android.app.Fragment
+-keep public class * extends android.app.Activity
+-keep public class * extends android.app.Application
+-keep public class * extends android.app.Service
+-keep public class * extends android.content.BroadcastReceiver
+-keep public class * extends android.content.ContentProvider
+
+# 保持自定义控件类不被混淆
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet);
+}
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+}
+
+#####################记录生成的日志数据,gradle build时在本项目根目录输出################
+# apk 包内所有 class 的内部结构
+-dump class_files.txt
+# 未混淆的类和成员
+-printseeds seeds.txt
+# 列出从 apk 中删除的代码
+-printusage unused.txt
+# 混淆前后的映射
+-printmapping mapping.txt
+#####################记录生成的日志数据，gradle build时 在本项目根目录输出-end################
+
+#微信分享相关 API 保留
+-keep class com.tencent.mm.opensdk.** { *; }
