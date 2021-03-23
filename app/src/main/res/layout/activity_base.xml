@@ -42,7 +42,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/base_title_parent_rtl" />
 
-    <com.yangke.app.java.v.widget.MultiStatusView
+    <com.android.yangke.java.v.widget.MultiStatusView
         android:id="@+id/base_state_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

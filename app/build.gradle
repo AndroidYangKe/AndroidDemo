@@ -7,7 +7,7 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.yangke.app"
+        applicationId "com.android.yangke"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
@@ -16,7 +16,7 @@ android {
 
     signingConfigs {
         debug {
-            keyAlias 'keystore'
+            keyAlias 'search'
             keyPassword '123456'
             storeFile file('keystore')
             storePassword '123456'
@@ -38,6 +38,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    //自定义 APP 打包时文件名
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "search-${variant.versionName}-${new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))}-${variant.name}.apk"
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -53,6 +61,10 @@ dependencies {
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
     implementation 'androidx.appcompat:appcompat:1.2.0'
 
+    //微信登录，支付，分享包
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.4.0'
+    //Html解析
+    implementation 'org.jsoup:jsoup:1.10.2'
     /*----------------------网络层面框架依赖------------------*/
     //Rxjava
     implementation 'io.reactivex.rxjava2:rxjava:2.2.19'
@@ -65,6 +77,4 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.7.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.7.1'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.7.1'
-    //Html解析
-    implementation 'org.jsoup:jsoup:1.10.2'
 }

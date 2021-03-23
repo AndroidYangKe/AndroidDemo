@@ -1,23 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center">
+    tools:context=".v.MainActivity">
 
-    <EditText
-        android:id="@+id/search_edit"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager_home"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:hint="搜索：电影、番号、剧情~"
-        android:singleLine="true"
-        android:text="唐人街探案" />
+        android:layout_height="match_parent"
+        android:layout_above="@+id/line" />
 
-    <Button
-        android:id="@+id/go"
+    <ImageView
+        android:id="@+id/line"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:text="Go~" />
+        android:layout_height="0.5dp"
+        android:layout_above="@+id/rg_bottom"
+        android:background="#EBEBEB" />
 
-</FrameLayout>
+    <RadioGroup
+        android:id="@+id/rg_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_bottom_home"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="true"
+            android:drawableTop="@drawable/selector_navigation_home"
+            android:gravity="center"
+            android:text="Halaman muka"
+            android:textColor="@color/home_text_check_selector" />
+
+        <RadioButton
+            android:id="@+id/rb_bottom_live"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/selector_navigation_profile"
+            android:gravity="center"
+            android:text="Saya"
+            android:textColor="@color/home_text_check_selector" />
+    </RadioGroup>
+
+</RelativeLayout>
