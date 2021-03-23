@@ -23,14 +23,6 @@
 # 保持 Serializable 不被混淆
 -keepnames class * implements java.io.Serializable
 
-# Android原生相关的实现类不被混淆
--keep public class * extends android.app.Fragment
--keep public class * extends android.app.Activity
--keep public class * extends android.app.Application
--keep public class * extends android.app.Service
--keep public class * extends android.content.BroadcastReceiver
--keep public class * extends android.content.ContentProvider
-
 # 保持自定义控件类不被混淆
 -keepclasseswithmembers class * {
     public <init>(android.content.Context, android.util.AttributeSet);

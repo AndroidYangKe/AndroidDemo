@@ -17,11 +17,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
+            android:onClick="click"
             android:padding="16dp"
             android:text="@string/share_award_rule"
             android:textColor="#3a3a3a"
             android:textSize="13sp"
-            android:onClick="click"
             tools:ignore="RtlHardcoded" />
     </LinearLayout>
 
@@ -56,10 +56,10 @@
             android:layout_weight="7"
             android:background="@drawable/share_solid_circle"
             android:gravity="center"
+            android:onClick="click"
             android:paddingTop="@dimen/dp8"
             android:paddingBottom="@dimen/dp8"
             android:text="@string/share_app"
-            android:onClick="click"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
@@ -75,9 +75,9 @@
         android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:gravity="center"
+        android:onClick="click"
         android:padding="@dimen/dp8"
         android:text="@string/share_my_qr"
-        android:onClick="click"
         android:textColor="#ff541f" />
 
     <LinearLayout

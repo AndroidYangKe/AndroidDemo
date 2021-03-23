@@ -33,7 +33,6 @@ public class MeFragment extends LazyFragment implements View.OnClickListener {
     private LinearLayout mLLFaPiao;
     private TextView mTvAccount;
     private TextView mTvMsg;
-    private TextView mTvMianZe;
     private TextView mFree;             //剩余次数
     private TextView mTvAuthorMsg;
 
@@ -61,7 +60,7 @@ public class MeFragment extends LazyFragment implements View.OnClickListener {
         view.findViewById(R.id.share_tv).setOnClickListener(this);
         mTvAccount = view.findViewById(R.id.me_tv_account);
         mTvMsg = view.findViewById(R.id.me_tv_qq_flock);
-        mTvMianZe = view.findViewById(R.id.me_tv_mianze);
+        view.findViewById(R.id.me_software_desc_tv).setOnClickListener(this);
         mFree = view.findViewById(R.id.me_txt_free);
         mTvAuthorMsg = view.findViewById(R.id.me_txt_author);
 
@@ -100,8 +99,8 @@ public class MeFragment extends LazyFragment implements View.OnClickListener {
             case R.id.me_tv_qq_flock://QQ 群
                 ClipboardTool.copyText(getContext(), "692699158");
                 break;
-            case R.id.me_tv_mianze://免责条款
-//                RxActivityTool.skipActivity(getActivity(), SoftwareRequiredActivity.class);
+            case R.id.me_software_desc_tv://免责条款
+                PageRouter.start(getActivity(), SoftwareDescActivity.class);
                 break;
         }
     }

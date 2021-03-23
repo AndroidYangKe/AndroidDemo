@@ -61,6 +61,8 @@ dependencies {
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
     implementation 'androidx.appcompat:appcompat:1.2.0'
 
+    // 状态栏 https://github.com/gyf-dev/ImmersionBar
+    implementation 'com.gyf.immersionbar:immersionbar:3.0.0'
     //微信登录，支付，分享包
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.4.0'
     //Html解析

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="title_color">#2c241f</color>
+
+    <!--通用颜色值-->
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -9,4 +12,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="line_bg_1">#F2F2F2</color>
     <color name="c323232">#323232</color>
+
 </resources>

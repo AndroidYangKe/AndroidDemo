@@ -1,4 +1,9 @@
 <resources>
+    <!--标题相关-->
+    <string name="software_desc_title">软件说明</string>
+    <string name="share_title">推荐有奖</string>
+
+    <!--App name-->
     <string name="app_name">YangKe</string>
 
     <!--error hint-->

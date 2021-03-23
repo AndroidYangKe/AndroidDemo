@@ -47,6 +47,7 @@ public class WXEntryActivity extends BaseActivity implements View.OnClickListene
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share);
+        setTitle(getString(R.string.share_title));
     }
 
     @Override

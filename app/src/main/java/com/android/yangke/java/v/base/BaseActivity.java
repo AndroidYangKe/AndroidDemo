@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.yangke.java.R;
 import com.android.yangke.java.v.widget.MultiStatusView;
+import com.gyf.immersionbar.ImmersionBar;
 
 /**
  * author : yangke on 2021/3/19
@@ -27,6 +28,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected MultiStatusView mStateView;   //状态View;可用于展示空视图、加载中、无数据、网络错误页面；
     private TextView mTitle;                //标题文本
     private ImageView mBack, mTitleLine;
+    private ImmersionBar mStatBar;          //沉浸式状态栏
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,6 +80,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         mTitle = findViewById(R.id.base_title_center_tv);
         mBack = findViewById(R.id.base_title_back_iv);
         mBack.setOnClickListener(leftBtnOnClickListener);
+
+        mStatBar = ImmersionBar.with(this);
+        mStatBar.statusBarColor(R.color.title_color);
+        mStatBar.init();
+    }
+
+    protected void setStateBarColor(int color) {
+        mStatBar.statusBarColor(color);
+        mStatBar.init();
     }
 
     protected void hideTitle() {
@@ -113,6 +124,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void stateBarDark() {
         setBackIcon(R.drawable.back_ic_black);
         setTitleTextColor(R.color.c323232);
+
+        mStatBar.statusBarColor(R.color.white);
+        mStatBar.statusBarDarkFont(true);
+        mStatBar.init();
     }
 
     /**

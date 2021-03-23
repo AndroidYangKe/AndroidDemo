@@ -214,9 +214,9 @@
                     app:drawableTopCompat="@drawable/ic_xiaoxi" />
 
                 <TextView
-                    android:id="@+id/me_tv_mianze"
+                    android:id="@+id/me_software_desc_tv"
                     style="@style/me_item_setting"
-                    android:text="软件必读"
+                    android:text="软件说明"
                     app:drawableTopCompat="@drawable/ic_mianze" />
             </LinearLayout>
 
