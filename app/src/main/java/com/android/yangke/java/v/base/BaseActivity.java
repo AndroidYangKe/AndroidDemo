@@ -82,8 +82,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         mBack.setOnClickListener(leftBtnOnClickListener);
 
         mStatBar = ImmersionBar.with(this);
-        mStatBar.statusBarColor(R.color.title_color);
-        mStatBar.init();
+//        mStatBar.statusBarColor(R.color.white);
+        mStatBar.statusBarDarkFont(true).
+                applySystemFits(true).init();
     }
 
     protected void setStateBarColor(int color) {
@@ -93,6 +94,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void hideTitle() {
         findViewById(R.id.base_title_parent_rtl).setVisibility(View.GONE);
+        findViewById(R.id.base_title_bottom_line).setVisibility(View.GONE);
     }
 
     protected void setTitleBarBg(int color) {

@@ -2,14 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/base_title_parent_rtl"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:background="@color/title_color">
+        android:layout_height="?actionBarSize">
 
         <ImageView
             android:id="@+id/base_title_back_iv"
@@ -17,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="16dp"
-            android:background="@drawable/back_ic_white" />
+            android:background="@drawable/back_ic_black" />
 
         <TextView
             android:id="@+id/base_title_center_tv"
