@@ -2,8 +2,8 @@ package com.android.yangke.java.m.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import java.util.List;
 
@@ -13,21 +13,22 @@ import java.util.List;
  * email  : 211yangke@sina.com
  * desc   : 主页面ViewPage适配器
  */
-public class HomePageAdapter extends FragmentPagerAdapter {
+public class HomePageAdapter extends FragmentStateAdapter {
     private final List<Fragment> mFragmentList;
 
-    public HomePageAdapter(@NonNull FragmentManager fm, int behavior, List<Fragment> mFragmentList) {
-        super(fm, behavior);
+    public HomePageAdapter(@NonNull FragmentActivity fragmentActivity, List<Fragment> mFragmentList) {
+        super(fragmentActivity);
         this.mFragmentList = mFragmentList;
     }
 
+    @NonNull
     @Override
-    public Fragment getItem(int position) {
+    public Fragment createFragment(int position) {
         return mFragmentList.get(position);
     }
 
     @Override
-    public int getCount() {
+    public int getItemCount() {
         return mFragmentList.size();
     }
 }

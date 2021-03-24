@@ -6,6 +6,7 @@ import android.widget.RadioGroup;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.android.yangke.java.R;
 import com.android.yangke.java.m.adapter.HomePageAdapter;
@@ -25,7 +26,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     private ArrayList<Fragment> mFragmentList; //Fragment list
     private HomePageAdapter mPageAdapter;      //Fragment list adapter
-    private ViewPager mHomeViewPager;          //Fragment container
+    private ViewPager2 mHomeViewPager;          //Fragment container
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +37,12 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     @Override
     protected void initView() {
-        mPageAdapter = new HomePageAdapter(getSupportFragmentManager(),
-                FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, mFragmentList);
+        mPageAdapter = new HomePageAdapter(this, mFragmentList);
 
         mHomeViewPager = findViewById(R.id.view_pager_home);
         mHomeViewPager.setAdapter(mPageAdapter);
         mHomeViewPager.setCurrentItem(0);
+        mHomeViewPager.setUserInputEnabled(false);
         ((RadioGroup) findViewById(R.id.rg_bottom)).setOnCheckedChangeListener(this);
 
     }
