@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.android.yangke.java.R;
 import com.android.yangke.java.v.widget.MultiStatusView;
@@ -27,14 +28,20 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected MultiStatusView mStateView;   //状态View;可用于展示空视图、加载中、无数据、网络错误页面；
     private TextView mTitle;                //标题文本
-    private ImageView mBack, mTitleLine;
+    private ImageView mTitleLine;
     private ImmersionBar mStatBar;          //沉浸式状态栏
+    private Toolbar mToolBar;               //标题栏
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_base);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//禁止页面横屏
+
+        mToolBar = findViewById(R.id.toolbar);
+        setSupportActionBar(mToolBar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false); //隐藏Toolbar默认标题
+        mToolBar.setNavigationOnClickListener(v -> onBackPressed());
     }
 
     @Override
@@ -78,8 +85,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     private void initTitle() {
         mTitleLine = findViewById(R.id.base_title_bottom_line);
         mTitle = findViewById(R.id.base_title_center_tv);
-        mBack = findViewById(R.id.base_title_back_iv);
-        mBack.setOnClickListener(leftBtnOnClickListener);
 
         mStatBar = ImmersionBar.with(this);
 //        mStatBar.statusBarColor(R.color.white);
@@ -93,12 +98,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected void hideTitle() {
-        findViewById(R.id.base_title_parent_rtl).setVisibility(View.GONE);
+        mToolBar.setVisibility(View.GONE);
         findViewById(R.id.base_title_bottom_line).setVisibility(View.GONE);
     }
 
     protected void setTitleBarBg(int color) {
-        findViewById(R.id.base_title_parent_rtl).setBackgroundColor(getResources().getColor(color));
+        mToolBar.setBackgroundColor(getResources().getColor(color));
     }
 
     protected void setTitle(String str) {
@@ -109,10 +114,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         finish();
     }
 
-    protected void setBackIcon(int res) {
-        mBack.setBackgroundResource(res);
-    }
-
     protected void setTitleTextColor(int color) {
         mTitle.setTextColor(getResources().getColor(color));
     }
@@ -121,10 +122,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         mTitleLine.setVisibility(View.VISIBLE);
     }
 
-    protected View.OnClickListener leftBtnOnClickListener = v -> onBackClick();
-
     protected void stateBarDark() {
-        setBackIcon(R.drawable.back_ic_black);
+        mToolBar.setNavigationIcon(R.drawable.back_ic_black);
         setTitleTextColor(R.color.c323232);
 
         mStatBar.statusBarColor(R.color.white);

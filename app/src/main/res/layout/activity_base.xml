@@ -1,21 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/base_title_parent_rtl"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize">
-
-        <ImageView
-            android:id="@+id/base_title_back_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="16dp"
-            android:background="@drawable/back_ic_black" />
+        android:layout_height="wrap_content"
+        app:contentInsetStart="0dp"
+        app:navigationIcon="@drawable/back_ic_black">
 
         <TextView
             android:id="@+id/base_title_center_tv"
@@ -25,26 +20,26 @@
             android:maxWidth="160dp"
             android:maxLines="1"
             tools:text="/" />
-    </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
 
     <ImageView
         android:id="@+id/base_title_bottom_line"
         android:layout_width="match_parent"
         android:layout_height="5dp"
-        android:layout_below="@+id/base_title_parent_rtl"
+        android:layout_below="@+id/toolbar"
         android:background="@drawable/common_title_line_bg" />
 
     <FrameLayout
         android:id="@+id/base_content_fl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/base_title_parent_rtl" />
+        android:layout_below="@id/toolbar" />
 
     <com.android.yangke.java.v.widget.MultiStatusView
         android:id="@+id/base_state_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/base_title_parent_rtl"
+        android:layout_below="@+id/toolbar"
         android:visibility="gone" />
 
 </RelativeLayout>
