@@ -8,6 +8,7 @@
         android:id="@+id/search_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:drawableRight="@drawable/home_search_ic"
         android:ellipsize="end"
         android:hint="搜索：电影、番号、剧情~"
         android:singleLine="true"

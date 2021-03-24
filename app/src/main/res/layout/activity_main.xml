@@ -35,9 +35,12 @@
             android:button="@null"
             android:checked="true"
             android:drawableTop="@drawable/selector_navigation_home"
+            android:drawablePadding="-6dp"
             android:gravity="center"
-            android:text="Halaman muka"
-            android:textColor="@color/home_text_check_selector" />
+            android:paddingTop="6dp"
+            android:text="搜索"
+            android:textColor="@color/home_text_check_selector"
+            android:textSize="12sp" />
 
         <RadioButton
             android:id="@+id/rb_bottom_live"
@@ -46,9 +49,12 @@
             android:layout_weight="1"
             android:button="@null"
             android:drawableTop="@drawable/selector_navigation_profile"
+            android:drawablePadding="-6dp"
             android:gravity="center"
-            android:text="Saya"
-            android:textColor="@color/home_text_check_selector" />
+            android:paddingTop="6dp"
+            android:text="我的"
+            android:textColor="@color/home_text_check_selector"
+            android:textSize="12sp" />
     </RadioGroup>
 
 </RelativeLayout>
