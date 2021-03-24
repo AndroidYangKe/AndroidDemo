@@ -32,12 +32,12 @@ public class SnackBarUtil {
         return snackbar;
     }
 
-    public static Snackbar snackBarShort(View view, String message) {
-        return Snackbar.make(view, message, Snackbar.LENGTH_SHORT);
+    public static void snackBarShort(View view, String message) {
+        Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
     }
 
-    public static Snackbar snackBarLong(View view, String message) {
-        return Snackbar.make(view, message, Snackbar.LENGTH_LONG);
+    public static void snackBarLong(View view, String message) {
+        Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
     }
 
     /**

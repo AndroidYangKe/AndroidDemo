@@ -12,4 +12,6 @@ public class PageKey {
     public static final String APK_URL = "key_apk_url";             //分享，apk url
     public static final String USED_COUNT = "used_count";           //用户使用免费次数
     public static final String ALL_COUNT = "all_count";             //可用次数（包含分享获取的次数）
+    public static final String SELECT_POS = "dialog_select_pos";    //列表默认选中位置
+
 }

@@ -100,7 +100,7 @@ public class SearchResultActivity extends BaseActivity implements IBaseView<List
         mAdapter.getLoadMoreModule().setEnableLoadMore(true);
 
         if (ErrorModule.PARSE_ERROR.equals(flag)) {
-            SnackBarUtil.snackBarShort(mRcy, "数据解析错误了，请联系作者进行更新").show();
+            SnackBarUtil.snackBarShort(mRcy, "数据解析错误了，请联系作者进行更新");
             mStateView.showNetworkErrorView();
             return;
         }
@@ -133,7 +133,7 @@ public class SearchResultActivity extends BaseActivity implements IBaseView<List
             String href = mList.get(position).href;
             ClipboardTool.copyText(SearchResultActivity.this, href);
             if (!AppHelper.appIsInstalled(SearchResultActivity.this, "com.xunlei.downloadprovider", null)) {
-                SnackBarUtil.snackBarLong(mRcy, "迅雷没有安装或版本过低，链接已复制到剪切板").show();
+                SnackBarUtil.snackBarLong(mRcy, "迅雷没有安装或版本过低，链接已复制到剪切板");
                 return;
             }
             PageRouter.action2Thunder(SearchResultActivity.this);
