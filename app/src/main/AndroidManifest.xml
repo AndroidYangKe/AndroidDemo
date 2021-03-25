@@ -25,19 +25,20 @@
             android:name="notch.config"
             android:value="portrait|landscape" />
 
-        <activity android:name=".v.me.SoftwareDescActivity" />     <!--软件说明-->
-        <activity android:name=".v.search.SearchResultActivity" /> <!-- 搜索结果页 -->
-        <activity android:name=".v.base.BaseActivity" />           <!-- Activity Base -->
-        <activity android:name=".v.wxapi.WXEntryActivity" />       <!-- 微信分享 -->
-        <activity
-            android:name=".v.MainActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize">  <!-- 主页面 -->
+        <activity android:name=".v.entry.EntryActivity">          <!--整个应用的程序入口-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".v.me.SoftwareDescActivity" />     <!--软件说明-->
+        <activity android:name=".v.search.SearchResultActivity" /> <!-- 搜索结果页 -->
+        <activity android:name=".v.base.BaseActivity" />           <!-- Activity Base -->
+        <activity android:name=".v.wxapi.WXEntryActivity" />       <!-- 微信分享 -->
+        <activity
+            android:name=".v.MainActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"/>  <!-- 主页面 -->
     </application>
 
 </manifest>
