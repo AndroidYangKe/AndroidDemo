@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.yangke.java.R;
 import com.android.yangke.java.m.adapter.SelectorAdapter;
-import com.android.yangke.java.m.utils.DrawableHelper;
+import com.android.yangke.java.m.utils.DrawableUtil;
 
 import java.util.Arrays;
 
@@ -52,7 +52,7 @@ public class CitySelectorDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.common_city_selector, container, false);
-        view.setBackground(DrawableHelper.getDrawable("#ffffff", new float[]{12, 12, 12, 12, 0, 0, 0, 0,}));
+        view.setBackground(DrawableUtil.getDrawable("#ffffff", new float[]{12, 12, 12, 12, 0, 0, 0, 0,}));
         view.findViewById(R.id.cancel).setOnClickListener(v -> dismiss());
         return view;
     }

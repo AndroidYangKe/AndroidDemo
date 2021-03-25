@@ -11,8 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.android.yangke.java.R;
-import com.android.yangke.java.m.utils.AppHelper;
-import com.android.yangke.java.m.utils.ClipboardTool;
+import com.android.yangke.java.m.utils.AppUtil;
+import com.android.yangke.java.m.utils.ClipboardUtil;
 import com.android.yangke.java.m.utils.PageRouter;
 import com.android.yangke.java.v.base.LazyFragment;
 import com.android.yangke.java.v.wxapi.WXEntryActivity;
@@ -64,7 +64,7 @@ public class MeFragment extends LazyFragment implements View.OnClickListener {
         mFree = view.findViewById(R.id.me_txt_free);
         mTvAuthorMsg = view.findViewById(R.id.me_txt_author);
 
-        mVersionCode.setText("版本V" + AppHelper.getAppVersionName());
+        mVersionCode.setText("版本V" + AppUtil.getAppVersionName());
     }
 
     @Override
@@ -82,7 +82,7 @@ public class MeFragment extends LazyFragment implements View.OnClickListener {
 //                RxActivityTool.skipActivity(getActivity(), AboutAuthorActivity.class);
                 break;
             case R.id.me_tv_qq://作者QQ
-                ClipboardTool.copyText(getContext(), "QQ：1551121393");
+                ClipboardUtil.copyText(getContext(), "QQ：1551121393");
                 snakeBar(v, "您已成功复制作者QQ");
                 break;
             case R.id.me_ll_youhui://
@@ -97,7 +97,7 @@ public class MeFragment extends LazyFragment implements View.OnClickListener {
             case R.id.me_tv_account://账户安全
                 break;
             case R.id.me_tv_qq_flock://QQ 群
-                ClipboardTool.copyText(getContext(), "692699158");
+                ClipboardUtil.copyText(getContext(), "692699158");
                 break;
             case R.id.me_software_desc_tv://免责条款
                 PageRouter.start(getActivity(), SoftwareDescActivity.class);

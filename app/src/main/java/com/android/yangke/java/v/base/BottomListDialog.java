@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.yangke.java.R;
-import com.android.yangke.java.m.utils.DrawableHelper;
+import com.android.yangke.java.m.utils.DrawableUtil;
 import com.android.yangke.java.m.utils.PageKey;
 import com.android.yangke.java.m.vo.Amount;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -45,7 +45,7 @@ public class BottomListDialog extends BaseBottomSheetDialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_list_dialog_list_dialog, container, false);
-        view.setBackground(DrawableHelper.getDrawable("#ffffff", new float[]{12, 12, 12, 12, 0, 0, 0, 0,}));
+        view.setBackground(DrawableUtil.getDrawable("#ffffff", new float[]{12, 12, 12, 12, 0, 0, 0, 0,}));
         return view;
     }
 

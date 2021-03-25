@@ -14,8 +14,8 @@ import com.android.yangke.java.R;
 import com.android.yangke.java.m.network.UrlManager;
 import com.android.yangke.java.m.share.WeChatShareTools;
 import com.android.yangke.java.m.share.WechatShareModel;
-import com.android.yangke.java.m.utils.ClipboardTool;
-import com.android.yangke.java.m.utils.EasyLog;
+import com.android.yangke.java.m.utils.ClipboardUtil;
+import com.android.yangke.java.m.utils.LogUtil;
 import com.android.yangke.java.m.utils.ImageUtil;
 import com.android.yangke.java.m.utils.PageKey;
 import com.android.yangke.java.m.utils.SPUtil;
@@ -106,7 +106,7 @@ public class WXEntryActivity extends BaseActivity implements View.OnClickListene
         mShareDialog.dismiss();
         switch (v.getId()) {
             case R.id.share_txt_copy_href:
-                ClipboardTool.copyText(this, APP_SHARE_URL);
+                ClipboardUtil.copyText(this, APP_SHARE_URL);
                 ToastUtil.show("复制成功");
                 break;
             case R.id.share_txt_weibo:
@@ -157,7 +157,7 @@ public class WXEntryActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onReq(BaseReq baseReq) {
-        EasyLog.e("~~~onReq~~~");
+        LogUtil.e("~~~onReq~~~");
     }
 
     /**

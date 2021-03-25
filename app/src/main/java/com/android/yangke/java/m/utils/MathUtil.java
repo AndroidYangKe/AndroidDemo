@@ -8,7 +8,7 @@ import java.math.BigDecimal;
  * email  : 211yangke@sina.com
  * desc   : 数学相关的辅助类
  */
-public class MathHelper {
+public class MathUtil {
     /**
      * 匹配是否为数字
      *

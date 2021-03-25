@@ -11,7 +11,7 @@ import com.android.yangke.java.v.BaseApp;
  * email  : 211yangke@sina.com
  * desc   : Drawable辅助类；例：生成圆角图片
  */
-public class DrawableHelper {
+public class DrawableUtil {
 
     /**
      * @param solidColor 颜色
@@ -53,6 +53,5 @@ public class DrawableHelper {
         drawable.setCornerRadius(size * radius);
         return drawable;
     }
-
 
 }

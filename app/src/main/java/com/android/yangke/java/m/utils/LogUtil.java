@@ -11,7 +11,7 @@ import com.android.yangke.java.BuildConfig;
  * email  : 211yangke@sina.com
  * desc   : 日志打印辅助
  */
-public class EasyLog {
+public class LogUtil {
 
     /**
      * 输出错误级别日志

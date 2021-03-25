@@ -1,6 +1,7 @@
 package com.android.yangke.java.p.search;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.android.yangke.java.m.utils.SPUtil;
 
@@ -34,6 +35,10 @@ public class SearchHistoryPresenter {
     public String[] getHistoryList(Context ctx, int maxSize) {
         String history = SPUtil.getString(ctx, SEARCH_HISTORY);
         String[] historyArray = history.split(",");
+        if (historyArray.length <= 0 || (historyArray.length > 0 && TextUtils.isEmpty(historyArray[0]))) {
+            return null;
+        }
+
         if(historyArray.length > 0) {
             historyArray = aryReverse(historyArray);
         }

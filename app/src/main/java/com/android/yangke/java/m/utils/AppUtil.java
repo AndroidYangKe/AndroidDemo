@@ -19,7 +19,7 @@ import java.util.concurrent.Future;
  * email  : 211yangke@sina.com
  * desc   :
  */
-public class AppHelper {
+public class AppUtil {
     /**
      * @param context     context
      * @param packageName 应用报名

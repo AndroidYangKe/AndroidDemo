@@ -7,7 +7,7 @@ import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager.LayoutParams;
 
-import com.android.yangke.java.m.utils.DrawableHelper;
+import com.android.yangke.java.m.utils.DrawableUtil;
 
 /**
  * author : yangke on 2021/3/23
@@ -42,7 +42,7 @@ public class BaseDialog extends Dialog {
 
     private void initView(Context context) {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow().setBackgroundDrawable(DrawableHelper.getDrawable("#00000000", 0f));
+        this.getWindow().setBackgroundDrawable(DrawableUtil.getDrawable("#00000000", 0f));
         mContext = context;
         Window window = this.getWindow();
         mLayoutParams = window.getAttributes();
@@ -62,7 +62,7 @@ public class BaseDialog extends Dialog {
     public BaseDialog(Context context, float alpha, int gravity) {
         super(context);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow().setBackgroundDrawable(DrawableHelper.getDrawable("#00000000", 0f));
+        this.getWindow().setBackgroundDrawable(DrawableUtil.getDrawable("#00000000", 0f));
         mContext = context;
         Window window = this.getWindow();
         mLayoutParams = window.getAttributes();

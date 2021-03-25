@@ -12,7 +12,7 @@ import android.net.Uri;
  * email  : 211yangke@sina.com
  * desc   : 剪切板管理工具类
  */
-public class ClipboardTool {
+public class ClipboardUtil {
     /**
      * 复制文本到剪贴板
      *

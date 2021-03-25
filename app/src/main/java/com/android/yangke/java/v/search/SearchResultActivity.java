@@ -12,8 +12,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.android.yangke.java.R;
 import com.android.yangke.java.m.adapter.SearchResultAdapter;
 import com.android.yangke.java.m.network.ErrorModule;
-import com.android.yangke.java.m.utils.AppHelper;
-import com.android.yangke.java.m.utils.ClipboardTool;
+import com.android.yangke.java.m.utils.AppUtil;
+import com.android.yangke.java.m.utils.ClipboardUtil;
 import com.android.yangke.java.m.utils.DateUtil;
 import com.android.yangke.java.m.utils.PageKey;
 import com.android.yangke.java.m.utils.PageRouter;
@@ -121,7 +121,7 @@ public class SearchResultActivity extends BaseActivity implements IBaseView<List
 
     private void callAuthor(String msg) {
         SnackBarUtil.snackBarLong(mRcy, msg).setAction("联系作者", v -> {
-            ClipboardTool.copyText(getBaseContext(), AccountManager.QQ);
+            ClipboardUtil.copyText(getBaseContext(), AccountManager.QQ);
             SnackBarUtil.snackBarLong(v, "已成功复制作者QQ，可直接与其联系").show();
         }).show();
     }
@@ -146,8 +146,8 @@ public class SearchResultActivity extends BaseActivity implements IBaseView<List
             }
 
             String href = mList.get(position).href;
-            ClipboardTool.copyText(SearchResultActivity.this, href);
-            if (!AppHelper.appIsInstalled(SearchResultActivity.this, "com.xunlei.downloadprovider", null)) {
+            ClipboardUtil.copyText(SearchResultActivity.this, href);
+            if (!AppUtil.appIsInstalled(SearchResultActivity.this, "com.xunlei.downloadprovider", null)) {
                 SnackBarUtil.snackBarLong(mRcy, "迅雷没有安装或版本过低，链接已复制到剪切板").show();
                 return;
             }

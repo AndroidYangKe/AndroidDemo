@@ -5,8 +5,8 @@ import android.text.TextUtils;
 import com.android.yangke.java.m.network.Api;
 import com.android.yangke.java.m.network.ErrorModule;
 import com.android.yangke.java.m.network.RetrofitManager;
-import com.android.yangke.java.m.utils.EasyLog;
-import com.android.yangke.java.m.utils.MathHelper;
+import com.android.yangke.java.m.utils.LogUtil;
+import com.android.yangke.java.m.utils.MathUtil;
 import com.android.yangke.java.m.vo.SearchResult;
 import com.android.yangke.java.p.base.BasePresenter;
 import com.android.yangke.java.v.search.SearchResultActivity;
@@ -40,7 +40,7 @@ public class SearchResultPresenter extends BasePresenter<SearchResultActivity> {
         obs.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                EasyLog.e("============onResponse============");
+                LogUtil.e("============onResponse============");
                 try {
                     String html = response.body().string();
                     Document document = Jsoup.parse(html);
@@ -48,7 +48,7 @@ public class SearchResultPresenter extends BasePresenter<SearchResultActivity> {
                     int maxPageNum = 1;
                     for (Element index : indexElements) {
                         String pageStr = index.text();
-                        if (MathHelper.isNumeric(pageStr)) {
+                        if (MathUtil.isNumeric(pageStr)) {
                             int page = Integer.parseInt(pageStr);
                             if (page > 1) {
                                 maxPageNum = page;
@@ -81,13 +81,13 @@ public class SearchResultPresenter extends BasePresenter<SearchResultActivity> {
                     e.printStackTrace();
                     //搜索有数据，解析错误，应该是网站的结构发生了变化
                     getMvpView().onSuccess(ErrorModule.PARSE_ERROR, list, "");
-                    EasyLog.e("============解析出错============");
+                    LogUtil.e("============解析出错============");
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                EasyLog.e("============onFailure============");
+                LogUtil.e("============onFailure============");
                 getMvpView().onFailed("", "");
             }
         });

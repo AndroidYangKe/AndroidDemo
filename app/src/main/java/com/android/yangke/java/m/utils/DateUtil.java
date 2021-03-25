@@ -35,7 +35,7 @@ public class DateUtil {
         Calendar end = Calendar.getInstance();
         end.setTime(endTime);
         boolean pass = currentDate.after(end);
-        EasyLog.e("失效过期为：" + PASS_DATE);
+        LogUtil.e("失效过期为：" + PASS_DATE);
         return pass;
     }
 }

@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.android.yangke.java">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" />              <!--App联网必备权限-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".v.BaseApp"
@@ -10,6 +11,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:requestLegacyExternalStorage="true"
         android:theme="@style/BaseTheme">
 
         <!--ImmersionBar全面屏状态栏适配-->
@@ -38,7 +40,7 @@
         <activity android:name=".v.wxapi.WXEntryActivity" />       <!-- 微信分享 -->
         <activity
             android:name=".v.MainActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize"/>  <!-- 主页面 -->
+            android:windowSoftInputMode="adjustPan|adjustResize" />  <!-- 主页面 -->
     </application>
 
 </manifest>
