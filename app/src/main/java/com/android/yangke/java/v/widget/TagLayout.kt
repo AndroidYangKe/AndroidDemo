@@ -23,7 +23,7 @@ class TagLayout(context: Context?, attrs: AttributeSet?) : LinearLayout(context,
     private var mIndexPre = 0                               //记录上一次点击的位置
     private var mNormalColor = "#a5a7b7"                    //未选中字体颜色
     private var mSelectedColor = "#008577"                  //选择字体颜色
-    private var mNormalBg = R.drawable.tag_bg_grey          //未选中背景
+    private var mNormalBg = R.drawable.tag_bg_normal          //未选中背景
     private var mSelectedBg = R.drawable.tag_bg_highlight   //选择背景
     private var mSingleLis: SingleSelectListener? = null      //单选择监听器
     private var mMultipleLis: MultipleSelectListener? = null//多选择监听器

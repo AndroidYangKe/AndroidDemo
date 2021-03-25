@@ -3,8 +3,9 @@
     android:shape="line">
     <!--dashWidth虚线宽-->
     <!--width虚线高，view中调用必须为2倍，否则不显示-->
+    <!--android:width="2dp" 虚线高度，View引用过程中必须大于此值否则不显示-->
     <stroke
-        android:width="6dp"
+        android:width="1dp"
         android:color="#f5f5f5"
         android:dashWidth="8dp"
         android:dashGap="6dp" />

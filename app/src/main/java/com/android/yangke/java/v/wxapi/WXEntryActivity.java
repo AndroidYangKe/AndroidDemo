@@ -113,11 +113,11 @@ public class WXEntryActivity extends BaseActivity implements View.OnClickListene
                 ToastUtil.show("研发奋力抢修中，敬请期待...");
                 break;
             //微信朋友圈
-            case R.id.share_txt_weichat:
+            case R.id.share_weichat_friend_tv:
                 weChatShare(WeChatShareTools.SharePlace.Zone);
                 break;
             //微信好友
-            case R.id.share_txt_weichat_friend:
+            case R.id.share_wechat_buddy_tv:
                 weChatShare(WeChatShareTools.SharePlace.Friend);
                 break;
         }

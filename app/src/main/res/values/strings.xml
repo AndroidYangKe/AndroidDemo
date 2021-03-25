@@ -30,4 +30,9 @@
     <string name="share_search_description">腾讯，爱奇艺VIP，花钱不存的，搜索器搜你所搜，下你所下。还有综艺，优衣库，各种小视频！</string>
     <string name="network_no_connection">网络无法连接</string>
     <string name="long_click_save_qr_code">长按图片进行保存</string>
+    <!--share dilog-->
+    <string name="share_wechat_friend">朋友圈</string>
+    <string name="share_wechat_buddy">微信好友</string>
+    <string name="share_weibo">新浪微博</string>
+    <string name="share_copy_href">复制链接</string>
 </resources>

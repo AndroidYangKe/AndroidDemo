@@ -28,10 +28,10 @@ public class ShareDialog extends BaseDialog {
 
     private void initView() {
         View dialog_view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_share, null);
-        mWeiChatFriend = dialog_view.findViewById(R.id.share_txt_weichat_friend);
+        mWeiChatFriend = dialog_view.findViewById(R.id.share_wechat_buddy_tv);
         mCopyHref = dialog_view.findViewById(R.id.share_txt_copy_href);
         mWeibo = dialog_view.findViewById(R.id.share_txt_weibo);
-        mWeichat = dialog_view.findViewById(R.id.share_txt_weichat);
+        mWeichat = dialog_view.findViewById(R.id.share_weichat_friend_tv);
         setContentView(dialog_view);
 
         //设置dialog左右下外边距
