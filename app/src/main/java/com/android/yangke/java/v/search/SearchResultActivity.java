@@ -14,6 +14,7 @@ import com.android.yangke.java.m.adapter.SearchResultAdapter;
 import com.android.yangke.java.m.network.ErrorModule;
 import com.android.yangke.java.m.utils.AppHelper;
 import com.android.yangke.java.m.utils.ClipboardTool;
+import com.android.yangke.java.m.utils.DateUtil;
 import com.android.yangke.java.m.utils.PageKey;
 import com.android.yangke.java.m.utils.PageRouter;
 import com.android.yangke.java.m.utils.SnackBarUtil;
@@ -103,10 +104,7 @@ public class SearchResultActivity extends BaseActivity implements IBaseView<List
 
         if (ErrorModule.PARSE_ERROR.equals(flag)) {
             mStateView.showEmptyView();
-            SnackBarUtil.snackBarLong(mRcy, "数据解析错误了，请联系作者进行更新").setAction("联系作者", v -> {
-                ClipboardTool.copyText(getBaseContext(), AccountManager.QQ);
-                SnackBarUtil.snackBarLong(v, "已成功复制作者QQ，可直接与其联系").show();
-            }).show();
+            callAuthor("数据解析错误了，请联系作者进行更新");
             return;
         }
 
@@ -119,6 +117,13 @@ public class SearchResultActivity extends BaseActivity implements IBaseView<List
         switch2DataView();
         //mPage累加必须放在列表更新后，不然会影响更新逻辑
         mPageNum++;
+    }
+
+    private void callAuthor(String msg) {
+        SnackBarUtil.snackBarLong(mRcy, msg).setAction("联系作者", v -> {
+            ClipboardTool.copyText(getBaseContext(), AccountManager.QQ);
+            SnackBarUtil.snackBarLong(v, "已成功复制作者QQ，可直接与其联系").show();
+        }).show();
     }
 
     private void updateList(List<SearchResult> searchResults, String pageStr) {
@@ -135,6 +140,11 @@ public class SearchResultActivity extends BaseActivity implements IBaseView<List
 
     private void listClick() {
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            if(DateUtil.dateIsPass()){
+                callAuthor("软件过期，请联系作者进行更新");
+                return;
+            }
+
             String href = mList.get(position).href;
             ClipboardTool.copyText(SearchResultActivity.this, href);
             if (!AppHelper.appIsInstalled(SearchResultActivity.this, "com.xunlei.downloadprovider", null)) {
