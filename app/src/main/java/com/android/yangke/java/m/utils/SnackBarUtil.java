@@ -3,8 +3,8 @@ package com.android.yangke.java.m.utils;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.android.yangke.java.R;
+import com.google.android.material.snackbar.Snackbar;
 
 /**
  * author : yangke on 2021/3/18
@@ -18,10 +18,10 @@ public class SnackBarUtil {
     public static final int Warning = 3;
     public static final int Alert = 4;
 
-    private static int red = 0xfff44336;
-    private static int green = 0xff4caf50;
-    private static int blue = 0xff2195f3;
-    private static int orange = 0xffffc107;
+    private static final int red = 0xfff44336;
+    private static final int green = 0xff4caf50;
+    private static final int blue = 0xff2195f3;
+    private static final int orange = 0xffffc107;
 
     /**
      * 短显示SnackBar，自定义颜色
@@ -36,8 +36,8 @@ public class SnackBarUtil {
         Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
     }
 
-    public static void snackBarLong(View view, String message) {
-        Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
+    public static Snackbar snackBarLong(View view, String message) {
+        return Snackbar.make(view, message, Snackbar.LENGTH_LONG);
     }
 
     /**

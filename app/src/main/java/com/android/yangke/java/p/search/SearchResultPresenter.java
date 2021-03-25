@@ -29,7 +29,7 @@ import retrofit2.Response;
  * email  : 211yangke@sina.com
  * desc   : 搜索Presenter
  */
-public class SearchPresenter extends BasePresenter<SearchResultActivity> {
+public class SearchResultPresenter extends BasePresenter<SearchResultActivity> {
     /**
      * @param key 搜索用到的关键字
      */
@@ -48,9 +48,9 @@ public class SearchPresenter extends BasePresenter<SearchResultActivity> {
                     int maxPageNum = 1;
                     for (Element index : indexElements) {
                         String pageStr = index.text();
-                        if(MathHelper.isNumeric(pageStr)) {
+                        if (MathHelper.isNumeric(pageStr)) {
                             int page = Integer.parseInt(pageStr);
-                            if(page > 1){
+                            if (page > 1) {
                                 maxPageNum = page;
                             }
                         }

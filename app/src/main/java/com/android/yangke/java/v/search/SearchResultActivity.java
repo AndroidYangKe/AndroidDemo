@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 import com.android.yangke.java.R;
 import com.android.yangke.java.m.adapter.SearchResultAdapter;
 import com.android.yangke.java.m.network.ErrorModule;
@@ -18,8 +17,9 @@ import com.android.yangke.java.m.utils.ClipboardTool;
 import com.android.yangke.java.m.utils.PageKey;
 import com.android.yangke.java.m.utils.PageRouter;
 import com.android.yangke.java.m.utils.SnackBarUtil;
+import com.android.yangke.java.m.vo.AccountManager;
 import com.android.yangke.java.m.vo.SearchResult;
-import com.android.yangke.java.p.search.SearchPresenter;
+import com.android.yangke.java.p.search.SearchResultPresenter;
 import com.android.yangke.java.v.base.BaseActivity;
 import com.android.yangke.java.v.base.IBaseView;
 
@@ -33,7 +33,7 @@ import java.util.List;
  * desc   : 关键字搜索结果页面
  */
 public class SearchResultActivity extends BaseActivity implements IBaseView<List<SearchResult>> {
-    private SearchPresenter mPresenter;  //Presenter
+    private SearchResultPresenter mPresenter;  //Presenter
     private int mPageNum = 1;            //当前搜索页
     private RecyclerView mRcy;           //RecycleView
     private SearchResultAdapter mAdapter;//RecycleView主列表适配器
@@ -45,7 +45,7 @@ public class SearchResultActivity extends BaseActivity implements IBaseView<List
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
-        hideTitle();
+        setTitle("搜索结果");
     }
 
     @Override
@@ -54,8 +54,13 @@ public class SearchResultActivity extends BaseActivity implements IBaseView<List
         mRcy = findViewById(R.id.search_result_rcy);
         mRcy.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new SearchResultAdapter(R.layout.item_search_result);
+        mAdapter.setAnimationEnable(true);
         mRcy.setAdapter(mAdapter);
 
+        configRefreshAndLoadMore();
+    }
+
+    private void configRefreshAndLoadMore() {
         mSwipeRefresh.setOnRefreshListener(() -> {
             mPageNum = 1;
             mSwipeRefresh.setRefreshing(true);
@@ -64,13 +69,10 @@ public class SearchResultActivity extends BaseActivity implements IBaseView<List
             mPresenter.search(mSearchKey, mPageNum);
         });
 
-        mAdapter.getLoadMoreModule().setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                mSwipeRefresh.setRefreshing(false);
-                mAdapter.getLoadMoreModule().setEnableLoadMore(true);
-                mPresenter.search(mSearchKey, mPageNum);
-            }
+        mAdapter.getLoadMoreModule().setOnLoadMoreListener(() -> {
+            mSwipeRefresh.setRefreshing(false);
+            mAdapter.getLoadMoreModule().setEnableLoadMore(true);
+            mPresenter.search(mSearchKey, mPageNum);
         });
 
         mAdapter.getLoadMoreModule().setAutoLoadMore(true);
@@ -80,7 +82,7 @@ public class SearchResultActivity extends BaseActivity implements IBaseView<List
 
     @Override
     protected void initData() {
-        mPresenter = new SearchPresenter();
+        mPresenter = new SearchResultPresenter();
         mPresenter.attachView(this);
 
         Intent intent = getIntent();
@@ -100,8 +102,11 @@ public class SearchResultActivity extends BaseActivity implements IBaseView<List
         mAdapter.getLoadMoreModule().setEnableLoadMore(true);
 
         if (ErrorModule.PARSE_ERROR.equals(flag)) {
-            SnackBarUtil.snackBarShort(mRcy, "数据解析错误了，请联系作者进行更新");
-            mStateView.showNetworkErrorView();
+            mStateView.showEmptyView();
+            SnackBarUtil.snackBarLong(mRcy, "数据解析错误了，请联系作者进行更新").setAction("联系作者", v -> {
+                ClipboardTool.copyText(getBaseContext(), AccountManager.QQ);
+                SnackBarUtil.snackBarLong(v, "已成功复制作者QQ，可直接与其联系").show();
+            }).show();
             return;
         }
 
@@ -133,7 +138,7 @@ public class SearchResultActivity extends BaseActivity implements IBaseView<List
             String href = mList.get(position).href;
             ClipboardTool.copyText(SearchResultActivity.this, href);
             if (!AppHelper.appIsInstalled(SearchResultActivity.this, "com.xunlei.downloadprovider", null)) {
-                SnackBarUtil.snackBarLong(mRcy, "迅雷没有安装或版本过低，链接已复制到剪切板");
+                SnackBarUtil.snackBarLong(mRcy, "迅雷没有安装或版本过低，链接已复制到剪切板").show();
                 return;
             }
             PageRouter.action2Thunder(SearchResultActivity.this);
@@ -153,8 +158,15 @@ public class SearchResultActivity extends BaseActivity implements IBaseView<List
 
     @Override
     public void onFailed(String flag, Object obj) {
+        showErrorView();
+    }
+
+    private void showErrorView() {
         mStateView.showNetworkErrorView();
-        mStateView.addNetworkErrorListener(() -> mPresenter.search(mSearchKey, mPageNum));
+        mStateView.addNetworkErrorListener(() -> {
+            mStateView.showLoadingView(false);
+            mPresenter.search(mSearchKey, mPageNum);
+        });
     }
 
 

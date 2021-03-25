@@ -48,7 +48,7 @@
             android:paddingTop="12dp"
             android:paddingRight="28dp"
             android:paddingBottom="12dp"
-            android:text="Menyegarkan"
+            android:text="重试"
             android:textColor="@color/white"
             android:textSize="16dp"
             android:visibility="gone" />

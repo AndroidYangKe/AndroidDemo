@@ -10,11 +10,18 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.yangke.java.R;
+import com.android.yangke.java.m.adapter.HistoryAdapter;
 import com.android.yangke.java.m.utils.DrawableHelper;
+import com.android.yangke.java.m.utils.SPUtil;
+import com.android.yangke.java.p.search.SearchHistoryPresenter;
 import com.android.yangke.java.v.search.SearchResultActivity;
 import com.android.yangke.java.v.widget.ClearEditText;
+
+import java.util.Arrays;
 
 /**
  * author : yangke on 2021/3/23
@@ -24,7 +31,11 @@ import com.android.yangke.java.v.widget.ClearEditText;
  */
 public class HomeFragment extends Fragment implements View.OnKeyListener {
 
-    private ClearEditText mSearchEdit; //搜索框
+    private ClearEditText mSearchEdit;        //搜索框
+    private SearchHistoryPresenter mPresenter;//历史记录Presenter
+    private RecyclerView mRcy;                //搜索历史记录
+    private HistoryAdapter mHistoryAdapter;   //历史搜索适配器
+    private final int mMaxHistorySize = 10;   //最大历史搜索数量
 
     public static HomeFragment newInstance(String param1) {
         HomeFragment fragment = new HomeFragment();
@@ -46,6 +57,48 @@ public class HomeFragment extends Fragment implements View.OnKeyListener {
         mSearchEdit = view.findViewById(R.id.search_edit);
         mSearchEdit.setBackground(DrawableHelper.getDrawable("#00000000", "#F2F2F2", 1, 8));
         mSearchEdit.setOnKeyListener(this);
+
+        mRcy = view.findViewById(R.id.history_rcy);
+        mPresenter = new SearchHistoryPresenter();
+
+        initList();
+
+        initClick();
+    }
+
+    private void initList() {
+        mHistoryAdapter = new HistoryAdapter(R.layout.item_history);
+        mHistoryAdapter.setAnimationEnable(true);
+        mRcy.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRcy.setAdapter(mHistoryAdapter);
+    }
+
+    private void initClick() {
+        mHistoryAdapter.setOnItemClickListener((adapter, view1, position) -> {
+            String searchKey = mHistoryAdapter.getData().get(position);
+            SPUtil.getString(getContext(), searchKey);
+            SearchResultActivity.start(getContext(), searchKey);
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        String[] list = mPresenter.getHistoryList(getContext(), mMaxHistorySize);
+        if(null == list || list.length <= 0) {
+            return;
+        }
+        mHistoryAdapter.setList(Arrays.asList(list));
+        if (mMaxHistorySize < list.length) {
+            View cleanHistory = LayoutInflater.from(getContext()).inflate(R.layout.footer_clean_history, null);
+            cleanHistory.setOnClickListener(v -> {
+                mPresenter.cleanHistory(getContext());
+                mHistoryAdapter.setList(null);
+                mHistoryAdapter.removeAllFooterView();
+            });
+            mHistoryAdapter.removeAllFooterView();
+            mHistoryAdapter.addFooterView(cleanHistory);
+        }
     }
 
     @Override
@@ -56,10 +109,12 @@ public class HomeFragment extends Fragment implements View.OnKeyListener {
                 mSearchEdit.setShakeAnimation();
 
             } else {
+                mPresenter.save(searchKey, getContext());
                 SearchResultActivity.start(getContext(), searchKey);
             }
             return true;
         }
         return false;
     }
+
 }
