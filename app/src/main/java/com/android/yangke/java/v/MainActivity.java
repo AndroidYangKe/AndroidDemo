@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.widget.RadioGroup;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.android.yangke.java.R;

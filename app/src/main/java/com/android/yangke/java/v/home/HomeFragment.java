@@ -2,17 +2,19 @@ package com.android.yangke.java.v.home;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.android.yangke.java.R;
+import com.android.yangke.java.m.utils.DrawableHelper;
 import com.android.yangke.java.v.search.SearchResultActivity;
+import com.android.yangke.java.v.widget.ClearEditText;
 
 /**
  * author : yangke on 2021/3/23
@@ -20,10 +22,9 @@ import com.android.yangke.java.v.search.SearchResultActivity;
  * email  : 211yangke@sina.com
  * desc   : 首页
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements View.OnKeyListener {
 
-    private String mParam1;
-    private EditText mSearchEdit; //搜索框
+    private ClearEditText mSearchEdit; //搜索框
 
     public static HomeFragment newInstance(String param1) {
         HomeFragment fragment = new HomeFragment();
@@ -31,14 +32,6 @@ public class HomeFragment extends Fragment {
         args.putString("ARG_PARAM1", param1);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString("ARG_PARAM1");
-        }
     }
 
     @Override
@@ -51,16 +44,22 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mSearchEdit = view.findViewById(R.id.search_edit);
-        mSearchEdit.setOnClickListener(v -> {
+        mSearchEdit.setBackground(DrawableHelper.getDrawable("#00000000", "#F2F2F2", 1, 8));
+        mSearchEdit.setOnKeyListener(this);
+    }
+
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        if (null != event && KeyEvent.KEYCODE_ENTER == event.getKeyCode() && event.getAction() == KeyEvent.ACTION_UP) {
             String searchKey = mSearchEdit.getText().toString().trim();
-            if (!TextUtils.isEmpty(searchKey)) {
+            if (TextUtils.isEmpty(searchKey)) {
+                mSearchEdit.setShakeAnimation();
+
+            } else {
                 SearchResultActivity.start(getContext(), searchKey);
             }
-        });
-
-        view.findViewById(R.id.go).setOnClickListener(v -> {
-            String searchKey = mSearchEdit.getText().toString().trim();
-            SearchResultActivity.start(getContext(), searchKey);
-        });
+            return true;
+        }
+        return false;
     }
 }
