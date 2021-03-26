@@ -73,6 +73,8 @@ public class SelectorAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
                 }
             }
         });
+
+        BaseApp.sHandler.postDelayed(() -> rcy.smoothScrollToPosition(2), 200); //默认选中位置
     }
 
     @Override
