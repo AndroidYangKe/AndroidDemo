@@ -1,5 +1,6 @@
 package com.android.yangke.java.v.home;
 
+import android.Manifest;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -64,6 +66,9 @@ public class HomeFragment extends Fragment implements View.OnKeyListener {
         mSearchEdit = view.findViewById(R.id.search_edit);
         mSearchEdit.setBackground(DrawableUtil.getDrawable("#00000000", "#F2F2F2", 1, 8));
         mSearchEdit.setOnKeyListener(this);
+        ActivityCompat.requestPermissions(getActivity(),
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                1);
 
         mRcy = view.findViewById(R.id.history_rcy);
         mPresenter = new SearchHistoryPresenter();
@@ -83,7 +88,7 @@ public class HomeFragment extends Fragment implements View.OnKeyListener {
             Bitmap bitmap = ((BitmapDrawable) zanIv.getDrawable()).getBitmap();
             FileUtil.saveToSystemGallery(getContext(), bitmap);
             SnackBarUtil.snackBarShort(zanIv, "save success");
-            PageRouter.toWeChatScan(getActivity());
+            PageRouter.payScan(getActivity(), "1");
             dialog.dismiss();
         });
     }
