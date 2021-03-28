@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,10 +18,12 @@ import com.android.yangke.java.m.utils.ClipboardUtil;
 import com.android.yangke.java.m.utils.DateUtil;
 import com.android.yangke.java.m.utils.PageKey;
 import com.android.yangke.java.m.utils.PageRouter;
+import com.android.yangke.java.m.utils.PermissionUtil;
 import com.android.yangke.java.m.utils.SnackBarUtil;
 import com.android.yangke.java.m.vo.AccountManager;
 import com.android.yangke.java.m.vo.SearchResult;
 import com.android.yangke.java.p.search.SearchResultPresenter;
+import com.android.yangke.java.v.MainActivity;
 import com.android.yangke.java.v.base.BaseActivity;
 import com.android.yangke.java.v.base.IBaseView;
 
@@ -52,6 +55,7 @@ public class SearchResultActivity extends BaseActivity implements IBaseView<List
     @Override
     protected void initView() {
         mSwipeRefresh = findViewById(R.id.search_result_swipe_refresh);
+        mSwipeRefresh.setRefreshing(true);
         mRcy = findViewById(R.id.search_result_rcy);
         mRcy.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new SearchResultAdapter(R.layout.item_search_result);
@@ -92,7 +96,6 @@ public class SearchResultActivity extends BaseActivity implements IBaseView<List
         }
 
         mSearchKey = intent.getStringExtra(PageKey.SEARCH);
-        mStateView.showLoadingView(true);
         mPresenter.search(mSearchKey, mPageNum);
     }
 
@@ -142,6 +145,16 @@ public class SearchResultActivity extends BaseActivity implements IBaseView<List
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             if(DateUtil.dateIsPass()){
                 callAuthor("软件过期，请联系作者进行更新");
+                return;
+            }
+
+            if (!PermissionUtil.hasPermission(this, PermissionUtil.WRITE)) {
+                SnackBarUtil.snackBar(mRcy, PermissionUtil.WRITE_HINT, 3000).setAction("给予", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        PermissionUtil.retryRequestPermissions(SearchResultActivity.this, PermissionUtil.WRITE);
+                    }
+                }).show();
                 return;
             }
 

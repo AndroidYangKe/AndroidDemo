@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import com.android.yangke.java.R;
 import com.android.yangke.java.m.utils.AppUtil;
 import com.android.yangke.java.m.utils.ClipboardUtil;
+import com.android.yangke.java.m.utils.DialogUtil;
 import com.android.yangke.java.m.utils.PageRouter;
 import com.android.yangke.java.v.base.LazyFragment;
 import com.android.yangke.java.v.wxapi.WXEntryActivity;

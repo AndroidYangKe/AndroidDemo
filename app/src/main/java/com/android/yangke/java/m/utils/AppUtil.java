@@ -1,5 +1,6 @@
 package com.android.yangke.java.m.utils;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -7,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
 import com.android.yangke.java.v.BaseApp;
+import com.android.yangke.java.v.pay.PaySelecActivity;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -68,6 +70,28 @@ public class AppUtil {
         } catch (PackageManager.NameNotFoundException e) {
             return "";
         }
+    }
+
+    private static long mExitTime;
+
+    public static boolean doubleClickZan(Activity activity) {
+        if ((System.currentTimeMillis() - mExitTime) > 2000) {
+            DialogUtil.showVoteDialog(activity, new DialogUtil.IButtonListener() {
+                @Override
+                public void positiveClick() {
+                    PageRouter.start(activity, PaySelecActivity.class);
+                }
+
+                @Override
+                public void negativeClick() {
+                    activity.finish();
+                }
+            });
+            mExitTime = System.currentTimeMillis();
+            return false;
+        }
+        activity.finish();
+        return true;
     }
 
 }

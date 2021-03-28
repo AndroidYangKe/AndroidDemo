@@ -1,6 +1,7 @@
 package com.android.yangke.java.v;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.RadioGroup;
 
 import androidx.fragment.app.Fragment;
@@ -8,9 +9,14 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.android.yangke.java.R;
 import com.android.yangke.java.m.adapter.HomePageAdapter;
+import com.android.yangke.java.m.utils.AppUtil;
+import com.android.yangke.java.m.utils.FileUtil;
+import com.android.yangke.java.m.utils.PermissionUtil;
+import com.android.yangke.java.m.utils.SnackBarUtil;
 import com.android.yangke.java.v.base.BaseActivity;
 import com.android.yangke.java.v.home.HomeFragment;
 import com.android.yangke.java.v.me.MeFragment;
+import com.android.yangke.java.v.pay.PaySelecActivity;
 
 import java.util.ArrayList;
 
@@ -43,6 +49,21 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         mHomeViewPager.setUserInputEnabled(false);
         ((RadioGroup) findViewById(R.id.rg_bottom)).setOnCheckedChangeListener(this);
 
+        if (!PermissionUtil.hasPermission(this, PermissionUtil.WRITE)) {
+            SnackBarUtil.snackBar(findViewById(R.id.coordinator), PermissionUtil.WRITE_HINT, 7000).setAction("给予", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    PermissionUtil.retryRequestPermissions(MainActivity.this, PermissionUtil.WRITE);
+                }
+            }).show();
+        }
+
+        FileUtil.savePayBitmapToLocal(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        AppUtil.doubleClickZan(this);
     }
 
     @Override

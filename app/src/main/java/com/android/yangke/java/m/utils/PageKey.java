@@ -14,4 +14,8 @@ public class PageKey {
     public static final String ALL_COUNT = "all_count";             //可用次数（包含分享获取的次数）
     public static final String SELECT_POS = "dialog_select_pos";    //列表默认选中位置
 
+    public static class RequestCode {
+        public static final int WRITE_SD = 1000;          //请求sd卡权限
+    }
+
 }

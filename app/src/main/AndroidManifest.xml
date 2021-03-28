@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.android.yangke.java">
 
-    <uses-permission android:name="android.permission.INTERNET" />              <!--App联网必备权限-->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- App联网必备权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -10,37 +10,36 @@
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:supportsRtl="true"
         android:requestLegacyExternalStorage="true"
+        android:supportsRtl="true"
         android:theme="@style/BaseTheme">
-
-        <!--ImmersionBar全面屏状态栏适配-->
+        <activity android:name=".v.pay.PaySelecActivity"/>
+        <!-- ImmersionBar全面屏状态栏适配 -->
         <meta-data
             android:name="android.max_aspect"
-            android:value="2.4" />
-        <!--适配华为（huawei）刘海屏-->
+            android:value="2.4" /> <!-- 适配华为（huawei）刘海屏 -->
         <meta-data
             android:name="android.notch_support"
-            android:value="true" />
-        <!--适配小米（xiaomi）刘海屏-->
+            android:value="true" /> <!-- 适配小米（xiaomi）刘海屏 -->
         <meta-data
             android:name="notch.config"
             android:value="portrait|landscape" />
 
-        <activity android:name=".v.entry.EntryActivity">          <!--整个应用的程序入口-->
+        <activity android:name=".v.entry.EntryActivity"> <!-- 整个应用的程序入口 -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".v.me.SoftwareDescActivity" />     <!--软件说明-->
+        <activity android:name=".v.me.SoftwareDescActivity" /> <!-- 软件说明 -->
         <activity android:name=".v.search.SearchResultActivity" /> <!-- 搜索结果页 -->
-        <activity android:name=".v.base.BaseActivity" />           <!-- Activity Base -->
-        <activity android:name=".v.wxapi.WXEntryActivity" />       <!-- 微信分享 -->
+        <activity android:name=".v.base.BaseActivity" /> <!-- Activity Base -->
+        <activity android:name=".v.wxapi.WXEntryActivity" /> <!-- 微信分享 -->
         <activity
             android:name=".v.MainActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize" />  <!-- 主页面 -->
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
     </application>
 
 </manifest>
