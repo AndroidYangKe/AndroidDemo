@@ -12,14 +12,16 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:ellipsize="end"
+        android:focusable="true"
         android:hint="搜索：电影、番号、剧情~"
         android:imeOptions="actionSearch"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
         android:singleLine="true"
         android:text="唐人街探案3"
+        android:textColor="@color/c323232"
+        android:textColorHint="@color/cc0c0c0"
         android:textSize="16sp"
-        android:focusable="true"
         tools:ignore="MissingConstraints" />
 
     <ImageView

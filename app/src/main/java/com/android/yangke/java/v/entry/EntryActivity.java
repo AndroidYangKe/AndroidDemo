@@ -1,10 +1,13 @@
 package com.android.yangke.java.v.entry;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.android.yangke.java.BuildConfig;
 import com.android.yangke.java.R;
+import com.android.yangke.java.m.utils.DialogUtil;
 import com.android.yangke.java.m.utils.PageRouter;
+import com.android.yangke.java.m.utils.SPUtil;
 import com.android.yangke.java.v.MainActivity;
 import com.android.yangke.java.v.base.BaseActivity;
 import com.android.yangke.java.v.widget.TimerView;
@@ -29,8 +32,24 @@ public class EntryActivity extends BaseActivity {
     @Override
     protected void initView() {
         mSkipView = findViewById(R.id.splash_txt_skip);
-        mSkipView.configTimer(BuildConfig.DEBUG ? 0 : 3000)
-                .withClickListener(this::toMainPage).start();
+        boolean showAgreePolicy = SPUtil.getBoolean(this, "agree_policy");
+        if (!showAgreePolicy) { //未同意App协议
+            mSkipView.setVisibility(View.GONE);
+            DialogUtil.showPolicyDialog(this, new DialogUtil.IButtonListener() {
+                @Override
+                public void positiveClick() {
+                    SPUtil.putBoolean(EntryActivity.this, "agree_policy", true);
+                    toMainPage();
+                }
+
+                @Override
+                public void negativeClick() {
+                }
+            });
+            return;
+        }
+
+        toMainPage();
     }
 
     @Override
@@ -39,9 +58,13 @@ public class EntryActivity extends BaseActivity {
     }
 
     private void toMainPage() {
-        mSkipView.cancel();
-        PageRouter.start(this, MainActivity.class);
-        overridePendingTransition(R.anim.entry_activity_fade, R.anim.entry_activity_exit);
-        finish();
+        mSkipView.configTimer(BuildConfig.DEBUG ? 0 : 3000)
+                .withClickListener(() -> {
+                    mSkipView.cancel();
+                    PageRouter.start(EntryActivity.this, MainActivity.class);
+                    overridePendingTransition(R.anim.entry_activity_fade, R.anim.entry_activity_exit);
+                    finish();
+                }).start();
+
     }
 }

@@ -38,6 +38,7 @@
             android:textSize="30sp"
             android:textStyle="bold"
             android:typeface="serif"
+            android:textColor="@color/c757575"
             app:drawableStartCompat="@mipmap/ic_launcher" />
     </RelativeLayout>
 

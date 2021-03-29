@@ -13,11 +13,11 @@ import androidx.annotation.Nullable;
 import com.android.yangke.java.R;
 import com.android.yangke.java.m.utils.AppUtil;
 import com.android.yangke.java.m.utils.ClipboardUtil;
-import com.android.yangke.java.m.utils.DialogUtil;
 import com.android.yangke.java.m.utils.PageRouter;
+import com.android.yangke.java.m.utils.SnackBarUtil;
+import com.android.yangke.java.v.MainActivity;
 import com.android.yangke.java.v.base.LazyFragment;
 import com.android.yangke.java.v.wxapi.WXEntryActivity;
-import com.google.android.material.snackbar.Snackbar;
 
 /**
  * author: yangke on 2018/5/20
@@ -33,15 +33,8 @@ public class MeFragment extends LazyFragment implements View.OnClickListener {
     private LinearLayout mLLYouHui;
     private LinearLayout mLLFaPiao;
     private TextView mTvAccount;
-    private TextView mTvMsg;
     private TextView mFree;             //剩余次数
     private TextView mTvAuthorMsg;
-
-    public static void snakeBar(View v, String hint) {
-        Snackbar.make(v, hint, Snackbar.LENGTH_SHORT)
-                .setAction("Action", null)
-                .show();
-    }
 
     @Nullable
     @Override
@@ -60,7 +53,8 @@ public class MeFragment extends LazyFragment implements View.OnClickListener {
         mLLFaPiao = view.findViewById(R.id.me_ll_fapiao);
         view.findViewById(R.id.share_tv).setOnClickListener(this);
         mTvAccount = view.findViewById(R.id.me_tv_account);
-        mTvMsg = view.findViewById(R.id.me_tv_qq_flock);
+        view.findViewById(R.id.me_tv_qq).setOnClickListener(this);
+        view.findViewById(R.id.me_tv_qq_flock).setOnClickListener(this);
         view.findViewById(R.id.me_software_desc_tv).setOnClickListener(this);
         mFree = view.findViewById(R.id.me_txt_free);
         mTvAuthorMsg = view.findViewById(R.id.me_txt_author);
@@ -75,6 +69,8 @@ public class MeFragment extends LazyFragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        MainActivity main = (MainActivity) getActivity();
+        View snakeBarView = (null == main || null == main.mCoordinator) ? v : main.mCoordinator;
         switch (v.getId()) {
             case R.id.me_ll_personal_msg://作者个人中心
 //                RxActivityTool.skipActivity(getActivity(), AuthorActivity.class);
@@ -84,7 +80,7 @@ public class MeFragment extends LazyFragment implements View.OnClickListener {
                 break;
             case R.id.me_tv_qq://作者QQ
                 ClipboardUtil.copyText(getContext(), "QQ：1551121393");
-                snakeBar(v, "您已成功复制作者QQ");
+                SnackBarUtil.snackBarShort(snakeBarView, "您已成功复制作者QQ");
                 break;
             case R.id.me_ll_youhui://
                 break;
@@ -99,6 +95,7 @@ public class MeFragment extends LazyFragment implements View.OnClickListener {
                 break;
             case R.id.me_tv_qq_flock://QQ 群
                 ClipboardUtil.copyText(getContext(), "692699158");
+                SnackBarUtil.snackBarShort(snakeBarView, "您已成功复制作者QQ群");
                 break;
             case R.id.me_software_desc_tv://免责条款
                 PageRouter.start(getActivity(), SoftwareDescActivity.class);

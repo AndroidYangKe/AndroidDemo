@@ -82,7 +82,7 @@ public class WXEntryActivity extends BaseActivity implements View.OnClickListene
                 break;
             //我的邀请二维码
             case R.id.share_txt_share_qr:
-                showQRCodeView();
+//                showQRCodeView();
                 break;
         }
     }

@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
+        android:textColor="@color/c323232"
         android:textSize="16sp"
         tools:text="/" />
 

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioGroup;
 
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -30,7 +31,8 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     private ArrayList<Fragment> mFragmentList; //Fragment list
     private HomePageAdapter mPageAdapter;      //Fragment list adapter
-    private ViewPager2 mHomeViewPager;          //Fragment container
+    private ViewPager2 mHomeViewPager;         //Fragment container
+    public CoordinatorLayout mCoordinator;    //CoordinatorLayout，特意为snakeBar指定位置
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +50,10 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         mHomeViewPager.setCurrentItem(0);
         mHomeViewPager.setUserInputEnabled(false);
         ((RadioGroup) findViewById(R.id.rg_bottom)).setOnCheckedChangeListener(this);
+        mCoordinator = findViewById(R.id.coordinator);
 
         if (!PermissionUtil.hasPermission(this, PermissionUtil.WRITE)) {
-            SnackBarUtil.snackBar(findViewById(R.id.coordinator), PermissionUtil.WRITE_HINT, 7000).setAction("给予", new View.OnClickListener() {
+            SnackBarUtil.snackBar(mCoordinator, PermissionUtil.WRITE_HINT, 7000).setAction("给予", new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     PermissionUtil.retryRequestPermissions(MainActivity.this, PermissionUtil.WRITE);
