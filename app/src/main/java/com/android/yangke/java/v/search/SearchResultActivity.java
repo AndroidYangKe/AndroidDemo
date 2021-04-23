@@ -36,7 +36,7 @@ import java.util.List;
  * email  : 211yangke@sina.com
  * desc   : 关键字搜索结果页面
  */
-public class SearchResultActivity extends BaseActivity implements IBaseView<List<SearchResult>> {
+public class SearchResultActivity extends BaseActivity implements IBaseView {
     private SearchResultPresenter mPresenter;  //Presenter
     private int mPageNum = 1;            //当前搜索页
     private RecyclerView mRcy;           //RecycleView
@@ -101,25 +101,47 @@ public class SearchResultActivity extends BaseActivity implements IBaseView<List
 
 
     @Override
-    public void onSuccess(String flag, List<SearchResult> searchResults, String str) {
-        mSwipeRefresh.setRefreshing(false);
-        mAdapter.getLoadMoreModule().setEnableLoadMore(true);
+    public void onSuccess(String flag, Object obj, String str) {
+        if(obj instanceof List) {
+            List<SearchResult> searchResults = (List<SearchResult>) obj;
+            mSwipeRefresh.setRefreshing(false);
+            mAdapter.getLoadMoreModule().setEnableLoadMore(true);
 
-        if (ErrorModule.PARSE_ERROR.equals(flag)) {
-            mStateView.showEmptyView();
-            callAuthor("数据解析错误了，请联系作者进行更新");
-            return;
-        }
+            if (ErrorModule.PARSE_ERROR.equals(flag)) {
+                mStateView.showEmptyView();
+                callAuthor("数据解析错误了，请联系作者进行更新");
+                return;
+            }
 
-        if (mPageNum == 1 && (searchResults == null || searchResults.isEmpty())) {
-            mStateView.showEmptyView();
-            return;
+            if (mPageNum == 1 && (searchResults == null || searchResults.isEmpty())) {
+                mStateView.showEmptyView();
+                return;
+            }
+            updateList(searchResults, str);
+            listClick();
+            switch2DataView();
+            //mPage累加必须放在列表更新后，不然会影响更新逻辑
+            mPageNum++;
+        } else {
+            switch2DataView();
+
+            if (!PermissionUtil.hasPermission(this, PermissionUtil.WRITE)) {
+                SnackBarUtil.snackBar(mRcy, PermissionUtil.WRITE_HINT, 3000).setAction("给予", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        PermissionUtil.retryRequestPermissions(SearchResultActivity.this, PermissionUtil.WRITE);
+                    }
+                }).show();
+                return;
+            }
+
+            ClipboardUtil.copyText(SearchResultActivity.this, str);
+            if (!AppUtil.appIsInstalled(SearchResultActivity.this, "com.xunlei.downloadprovider", null)) {
+                SnackBarUtil.snackBarLong(mRcy, "迅雷没有安装或版本过低，链接已复制到剪切板").show();
+                return;
+            }
+            PageRouter.action2Thunder(SearchResultActivity.this);
         }
-        updateList(searchResults, str);
-        listClick();
-        switch2DataView();
-        //mPage累加必须放在列表更新后，不然会影响更新逻辑
-        mPageNum++;
     }
 
     private void callAuthor(String msg) {
@@ -147,24 +169,9 @@ public class SearchResultActivity extends BaseActivity implements IBaseView<List
                 callAuthor("软件过期，请联系作者进行更新");
                 return;
             }
-
-            if (!PermissionUtil.hasPermission(this, PermissionUtil.WRITE)) {
-                SnackBarUtil.snackBar(mRcy, PermissionUtil.WRITE_HINT, 3000).setAction("给予", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        PermissionUtil.retryRequestPermissions(SearchResultActivity.this, PermissionUtil.WRITE);
-                    }
-                }).show();
-                return;
-            }
-
             String href = mList.get(position).href;
-            ClipboardUtil.copyText(SearchResultActivity.this, href);
-            if (!AppUtil.appIsInstalled(SearchResultActivity.this, "com.xunlei.downloadprovider", null)) {
-                SnackBarUtil.snackBarLong(mRcy, "迅雷没有安装或版本过低，链接已复制到剪切板").show();
-                return;
-            }
-            PageRouter.action2Thunder(SearchResultActivity.this);
+            switch2Loading(false);
+            mPresenter.requestGetHref(href);
         });
     }
 

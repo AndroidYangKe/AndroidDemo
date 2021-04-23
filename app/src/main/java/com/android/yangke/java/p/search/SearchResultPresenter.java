@@ -1,7 +1,5 @@
 package com.android.yangke.java.p.search;
 
-import android.text.TextUtils;
-
 import com.android.yangke.java.m.network.Api;
 import com.android.yangke.java.m.network.ErrorModule;
 import com.android.yangke.java.m.network.RetrofitManager;
@@ -16,6 +14,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import okhttp3.ResponseBody;
@@ -35,7 +34,7 @@ public class SearchResultPresenter extends BasePresenter<SearchResultActivity> {
      */
     public void search(String key, int pageNum) {
         ArrayList<SearchResult> list = new ArrayList<>(25);
-        Call<ResponseBody> obs = RetrofitManager.getRetrofit().create(Api.class).searchList(key, pageNum + "");
+        Call<ResponseBody> obs = RetrofitManager.getRetrofit().create(Api.class).searchList("so/" + key + "_rel_" + pageNum + ".html");
         addCallRequest(obs);
         obs.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -44,50 +43,81 @@ public class SearchResultPresenter extends BasePresenter<SearchResultActivity> {
                 try {
                     String html = response.body().string();
                     Document document = Jsoup.parse(html);
-                    Elements indexElements = document.getElementsByClass("pagination").select("li");
+                    Elements root = document.select("div[class=search-list col-md-8]");
+                    Elements itemList = root.select("div[class=search-item]");
+                    //粗略获取最大的pageSize
+                    Elements ul = root.select("ul[class=pagination]");
+                    Elements li = ul.select("li");
                     int maxPageNum = 1;
-                    for (Element index : indexElements) {
-                        String pageStr = index.text();
+                    for(Element el : li) {
+                        String pageStr = el.text();
                         if (MathUtil.isNumeric(pageStr)) {
                             int page = Integer.parseInt(pageStr);
                             if (page > 1) {
                                 maxPageNum = page;
                             }
                         }
-
                     }
 
-                    Elements c = document.getElementsByClass("table table-bordered table-striped");
-                    Elements listDataElements = document.getElementsByClass("panel-body table-responsive table-condensed");
-                    String empty = listDataElements.select("p").text();
                     //搜索无数据；直接展示空列表
-                    if (!TextUtils.isEmpty(empty) && empty.contains("其它关键词")) {
-                        getMvpView().onSuccess("", null, "");
-                        return;
-                    }
+//                    if (!TextUtils.isEmpty(empty) && empty.contains("其它关键词")) {
+//                        getMvpView().onSuccess("", null, "");
+//                        return;
+//                    }
                     //搜索有数据；正常解析
-                    for (Element element : c) {
-                        Elements item = element.getElementsByClass("text-left");
-                        String name = item.text(); //搜索的名字
-                        Elements trs = element.select("table").select("tr");
-                        Elements tds = trs.get(1).select("td");
-                        String date = tds.get(0).text();
-                        String size = tds.get(1).text();
-                        String href = tds.select("a").attr("href");
-                        list.add(new SearchResult(name, date, size, href, ""));
+                    for (Element element : itemList) {
+                        String name = element.select("h3").select("a").text();
+                        String href = element.select("h3").select("a").attr("href");
+                        Elements itemBar = element.select("div[class=item-bar]");
+                        Elements span = itemBar.select("span");
+                        String time = span.get(1).text();
+                        String size = span.get(2).text();
+                        list.add(new SearchResult(name, time, size, href, ""));
                     }
-                    getMvpView().onSuccess("", list, String.valueOf(maxPageNum));
+                    getMvpView().onSuccess("list", list, String.valueOf(maxPageNum));
                 } catch (Exception e) {
                     e.printStackTrace();
                     //搜索有数据，解析错误，应该是网站的结构发生了变化
                     getMvpView().onSuccess(ErrorModule.PARSE_ERROR, list, "");
-                    LogUtil.e("============解析出错============");
+                    LogUtil.e("============search 解析出错============");
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                LogUtil.e("============onFailure============");
+                LogUtil.e("============search onFailure============");
+                getMvpView().onFailed("", "");
+            }
+        });
+    }
+
+    /**
+     * 获取磁力链接
+     *
+     * @param url 列表页解析出的url后缀
+     */
+    public void requestGetHref(String url) {
+        Call<ResponseBody> obs = RetrofitManager.getRetrofit().create(Api.class).searchList(url);
+        addCallRequest(obs);
+        obs.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    String html = response.body().string();
+                    Document document = Jsoup.parse(html);
+                    Element p = document.select("div[class=fileDetail]").select("p").get(5);
+                    Element mLink = p.getElementById("m_link");
+                    String href = mLink.attr("value");
+                    getMvpView().onSuccess("", null, href);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    LogUtil.e("============requestGetHref 解析出错============");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                LogUtil.e("============requestGetHref onFailure============");
                 getMvpView().onFailed("", "");
             }
         });

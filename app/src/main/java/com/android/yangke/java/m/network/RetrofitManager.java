@@ -22,12 +22,12 @@ public class RetrofitManager {
      */
     public static synchronized Retrofit getRetrofit() {
         if (null == retrofit) {
-//            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-//            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
             OkHttpClient.Builder okBuilder = new OkHttpClient.Builder();
             okBuilder
-//                    .addInterceptor(interceptor)
+                    .addInterceptor(interceptor)
                     .connectTimeout(30, TimeUnit.SECONDS)
                     .readTimeout(30, TimeUnit.SECONDS)
                     .writeTimeout(30, TimeUnit.SECONDS);
