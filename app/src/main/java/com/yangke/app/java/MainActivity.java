@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.yangke.app.java.util.NoticeUtil;
+
 /**
  * author : yangke on 2021/3/17
  * weChat : ACE_5200125
@@ -17,5 +19,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        NoticeUtil.showNotifycation(this);
     }
 }
