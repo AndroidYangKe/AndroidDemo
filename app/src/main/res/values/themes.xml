@@ -13,4 +13,11 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <declare-styleable name="WordWrapView">
+        <attr name="padding_hor" format="dimension" />
+        <attr name="padding_vertical" format="dimension" />
+        <attr name="margin_hor" format="dimension" />
+        <attr name="margin_vertial" format="dimension" />
+    </declare-styleable>
 </resources>
