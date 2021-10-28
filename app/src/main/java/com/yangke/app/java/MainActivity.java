@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.yangke.app.java.util.CalendarProviderUtil;
 import com.yangke.app.java.widget.EasyToast;
 import com.yangke.app.java.widget.TagView;
 
@@ -21,6 +22,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        CalendarProviderUtil.addEvent(this);
+
 
         TagView tagView = findViewById(R.id.tagView);
         String[] list = {"tag1", "ZhangFei", "HuangGai", "GuanYu", "LiuBei", "ZhuGeLiang"};
