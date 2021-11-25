@@ -1,14 +1,13 @@
 package com.yangke.app.java;
 
-import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.yangke.app.java.util.CalendarProviderUtil;
-import com.yangke.app.java.widget.EasyToast;
-import com.yangke.app.java.widget.TagView;
 
 /**
  * author : yangke on 2021/3/17
@@ -23,22 +22,38 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        CalendarProviderUtil.addEvent(this);
+        EditText amountEdit = findViewById(R.id.editTextNumber);
+        TextView amount10 = findViewById(R.id.textView);
+        TextView amount20 = findViewById(R.id.textView2);
+        TextView amount30 = findViewById(R.id.textView3);
+        TextView amount40 = findViewById(R.id.textView4);
 
+        amountEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
-        TagView tagView = findViewById(R.id.tagView);
-        String[] list = {"tag1", "ZhangFei", "HuangGai", "GuanYu", "LiuBei", "ZhuGeLiang"};
-        for (String str : list) {
-            TextView tv = new TextView(this);
-            tv.setTextSize(10);
-            tv.setTextColor(Color.parseColor("#AFA282"));
-            tv.setText(str);
-            tv.setBackgroundResource(R.drawable.re_loan_tag_bg);
-            tagView.addView(tv);
-            tv.setOnClickListener(v -> {
-                EasyToast.DEFAULT.show(tv.getText().toString());
-            });
-        }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (TextUtils.isEmpty(s)) {
+                    updateAmount(0);
+                    return;
+                }
+
+                double amount = Double.parseDouble(s.toString());
+                updateAmount(amount);
+            }
+
+            private void updateAmount(double amount) {
+                amount10.setText("现金账户：" + amount * 0.1);
+                amount20.setText("保障账户：" + amount * 0.2);
+                amount30.setText("养老账号：" + amount * 0.4);
+                amount40.setText("投资账户：" + amount * 0.3);
+            }
+        });
     }
 }
